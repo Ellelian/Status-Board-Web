@@ -14,6 +14,33 @@ assert.equal(
   parseAtlassian({ status: { indicator: 'minor' }, components: [], incidents: [{ status: 'investigating', impact: 'minor', name: 'Cloudflare Workers' }] }).level,
   'minor'
 );
+
+assert.deepEqual(
+  parseAtlassian({
+    status: { indicator: 'none' },
+    components: [],
+    incidents: [{ status: 'monitoring', impact: 'none', name: 'Connectivity issues from Pakistan region' }]
+  }),
+  { level: 'minor', title: 'Connectivity issues from Pakistan region' }
+);
+assert.deepEqual(
+  parseAtlassian({
+    status: { indicator: 'none' },
+    components: [],
+    incidents: [],
+    scheduled_maintenances: [{ status: 'in_progress', name: 'Server IN-1257 maintenance' }]
+  }),
+  { level: 'maintenance', title: 'Server IN-1257 maintenance' }
+);
+assert.deepEqual(
+  parseAtlassian({
+    status: { indicator: 'none' },
+    components: [],
+    incidents: [],
+    scheduled_maintenances: [{ status: 'scheduled', name: 'Maintenance future' }]
+  }),
+  { level: 'ok', title: '' }
+);
 assert.equal(parseGoogle([{ end: '2026-05-20T10:00:00Z', most_recent_update: { status: 'AVAILABLE' } }]).level, 'ok');
 assert.equal(parseGoogle([{ service_name: 'Gmail', severity: 'medium', most_recent_update: { status: 'SERVICE_DISRUPTION' } }]).level, 'minor');
 assert.equal(parseIncidentIo({ summary: { ongoing_incidents: [], affected_components: [] } }).level, 'ok');

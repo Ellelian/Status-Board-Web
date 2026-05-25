@@ -81,55 +81,34 @@ function renderSummary() {
   updateFavicon(issueCount + errorCount);
 }
 
-function roundedRect(context, x, y, width, height, radius) {
-  context.beginPath();
-  context.moveTo(x + radius, y);
-  context.lineTo(x + width - radius, y);
-  context.quadraticCurveTo(x + width, y, x + width, y + radius);
-  context.lineTo(x + width, y + height - radius);
-  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  context.lineTo(x + radius, y + height);
-  context.quadraticCurveTo(x, y + height, x, y + height - radius);
-  context.lineTo(x, y + radius);
-  context.quadraticCurveTo(x, y, x + radius, y);
-  context.closePath();
-}
-
 function updateFavicon(alertCount) {
   const canvas = document.createElement('canvas');
   const size = 64;
+  const centre = size / 2;
+  const radius = 28;
   canvas.width = size;
   canvas.height = size;
   const context = canvas.getContext('2d');
   if (!context || !elements.favicon) return;
 
-  // Fond du logo Status Board.
-  roundedRect(context, 4, 4, 52, 52, 13);
-  context.fillStyle = '#3159E6';
-  context.fill();
-
-  // Badge : vert sans compteur si tout va bien ; orange avec compteur sinon.
   const hasAlert = alertCount > 0;
-  const value = alertCount > 99 ? '99+' : String(alertCount);
-  const badgeRadius = hasAlert ? (value.length >= 3 ? 17 : value.length === 2 ? 15 : 13) : 12;
-  const badgeX = 49;
-  const badgeY = 49;
+  const value = alertCount >= 10 ? '9+' : String(alertCount);
+  const brandBlue = '#3159E6';
 
+  // Le compteur devient le favicon entier : grand cercle coloré, cerclé de bleu.
   context.beginPath();
-  context.arc(badgeX, badgeY, badgeRadius, 0, Math.PI * 2);
+  context.arc(centre, centre, radius, 0, Math.PI * 2);
   context.fillStyle = hasAlert ? '#FF9800' : '#4CAF50';
   context.fill();
-  context.lineWidth = 3;
-  context.strokeStyle = '#FFFFFF';
+  context.lineWidth = 5;
+  context.strokeStyle = brandBlue;
   context.stroke();
 
-  if (hasAlert) {
-    context.fillStyle = '#FFFFFF';
-    context.font = `700 ${value.length >= 3 ? 14 : value.length === 2 ? 19 : 24}px system-ui, sans-serif`;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    context.fillText(value, badgeX, badgeY + 1);
-  }
+  context.fillStyle = hasAlert ? brandBlue : '#FFFFFF';
+  context.font = `800 ${value.length === 2 ? 27 : 38}px system-ui, -apple-system, Segoe UI, sans-serif`;
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText(value, centre, centre + 1);
 
   elements.favicon.href = canvas.toDataURL('image/png');
 }

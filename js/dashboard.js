@@ -48,7 +48,8 @@ const elements = {
   exportBtn: $('#exportBtn'),
   importBtn: $('#importBtn'),
   importFile: $('#importFile'),
-  cardTemplate: $('#cardTemplate')
+  cardTemplate: $('#cardTemplate'),
+  favicon: $('#favicon')
 };
 
 async function send(type, payload = {}) {
@@ -70,10 +71,67 @@ function render() {
 function renderSummary() {
   const enabled = state.services.filter((service) => service.enabled);
   const statuses = enabled.map((service) => state.statuses[service.id]?.level || 'error');
+  const issueCount = statuses.filter((level) => ['minor', 'major', 'maintenance'].includes(level)).length;
+  const errorCount = statuses.filter((level) => level === 'error').length;
+
   elements.totalCount.textContent = String(enabled.length);
   elements.okCount.textContent = String(statuses.filter((level) => level === 'ok').length);
-  elements.issueCount.textContent = String(statuses.filter((level) => ['minor', 'major', 'maintenance'].includes(level)).length);
-  elements.errorCount.textContent = String(statuses.filter((level) => level === 'error').length);
+  elements.issueCount.textContent = String(issueCount);
+  elements.errorCount.textContent = String(errorCount);
+  updateFavicon(issueCount + errorCount);
+}
+
+function roundedRect(context, x, y, width, height, radius) {
+  context.beginPath();
+  context.moveTo(x + radius, y);
+  context.lineTo(x + width - radius, y);
+  context.quadraticCurveTo(x + width, y, x + width, y + radius);
+  context.lineTo(x + width, y + height - radius);
+  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  context.lineTo(x + radius, y + height);
+  context.quadraticCurveTo(x, y + height, x, y + height - radius);
+  context.lineTo(x, y + radius);
+  context.quadraticCurveTo(x, y, x + radius, y);
+  context.closePath();
+}
+
+function updateFavicon(alertCount) {
+  const canvas = document.createElement('canvas');
+  const size = 64;
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext('2d');
+  if (!context || !elements.favicon) return;
+
+  // Fond du logo Status Board.
+  roundedRect(context, 4, 4, 52, 52, 13);
+  context.fillStyle = '#3159E6';
+  context.fill();
+
+  // Badge : vert sans compteur si tout va bien ; orange avec compteur sinon.
+  const hasAlert = alertCount > 0;
+  const value = alertCount > 99 ? '99+' : String(alertCount);
+  const badgeRadius = hasAlert ? (value.length >= 3 ? 17 : value.length === 2 ? 15 : 13) : 12;
+  const badgeX = 49;
+  const badgeY = 49;
+
+  context.beginPath();
+  context.arc(badgeX, badgeY, badgeRadius, 0, Math.PI * 2);
+  context.fillStyle = hasAlert ? '#FF9800' : '#4CAF50';
+  context.fill();
+  context.lineWidth = 3;
+  context.strokeStyle = '#FFFFFF';
+  context.stroke();
+
+  if (hasAlert) {
+    context.fillStyle = '#FFFFFF';
+    context.font = `700 ${value.length >= 3 ? 14 : value.length === 2 ? 19 : 24}px system-ui, sans-serif`;
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(value, badgeX, badgeY + 1);
+  }
+
+  elements.favicon.href = canvas.toDataURL('image/png');
 }
 
 function renderUpdatedAt() {

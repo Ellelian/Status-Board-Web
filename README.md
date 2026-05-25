@@ -46,41 +46,6 @@ https://corsproxy.io/?
 
 C’est adapté à une comparaison ou à un usage personnel ponctuel. Pour un usage durable, il faudra envisager un proxy que tu contrôles, ou retenir l’extension Chrome.
 
-## Publier sur GitHub Pages
-
-1. Créer un nouveau dépôt GitHub, par exemple `status-board-web`.
-2. Décompresser l’archive et placer **le contenu** de ce dossier à la racine du dépôt.
-3. Commit / push sur la branche `main`.
-4. Dans le dépôt : **Settings > Pages**.
-5. Choisir **Deploy from a branch**, puis `main` et `/ (root)`.
-6. Ouvrir l’URL GitHub Pages indiquée une fois le déploiement terminé.
-
-Le fichier `index.html` se trouve déjà à la racine et le fichier `.nojekyll` évite un traitement inutile par Jekyll.
-
-## Tester localement avant publication
-
-Les modules JavaScript ne doivent pas être ouverts via `file://`. Depuis le dossier du projet :
-
-```bash
-python -m http.server 8080
-```
-
-Puis ouvrir :
-
-```text
-http://localhost:8080
-```
-
-## Importer la configuration de l’extension
-
-Dans l’extension :
-
-1. Cliquer sur **Exporter**.
-2. Dans cette page web, cliquer sur **Importer**.
-3. Sélectionner le fichier JSON exporté.
-
-La liste des services et les préférences d’affichage sont reprises. Elles restent locales au navigateur tant que la synchronisation Supabase n’est pas développée.
-
 ## Structure du projet
 
 ```text

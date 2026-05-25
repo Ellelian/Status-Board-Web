@@ -1,0 +1,8 @@
+{
+  "name": "status-board-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/providers.test.mjs && node tests/detector.test.mjs"
+  }
+}

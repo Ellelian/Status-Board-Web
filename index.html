@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Status Board Personnel — version web</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">VERSION WEB · GITHUB PAGES</p>
+        <h1>Status Board</h1>
+        <p id="updatedAt" class="muted">Chargement des statuts…</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="refreshBtn" class="button secondary" type="button">Actualiser</button>
+        <button id="newServiceBtn" class="button primary" type="button">Ajouter un service</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary" aria-label="Résumé des statuts">
+        <article class="summary-card">
+          <span class="summary-label">Services suivis</span>
+          <strong id="totalCount">—</strong>
+        </article>
+        <article class="summary-card good">
+          <span class="summary-label">Opérationnels</span>
+          <strong id="okCount">—</strong>
+        </article>
+        <article class="summary-card warning">
+          <span class="summary-label">Incidents / maintenance</span>
+          <strong id="issueCount">—</strong>
+        </article>
+        <article class="summary-card error">
+          <span class="summary-label">Erreurs de lecture</span>
+          <strong id="errorCount">—</strong>
+        </article>
+      </section>
+
+      <section class="toolbar" aria-label="Filtres et actions">
+        <label class="search-wrap">
+          <span class="sr-only">Rechercher un service</span>
+          <input id="searchInput" type="search" placeholder="Rechercher un service…">
+        </label>
+        <label class="toggle">
+          <input id="issuesOnly" type="checkbox">
+          <span>Afficher seulement les alertes</span>
+        </label>
+        <button id="settingsBtn" class="button ghost" type="button">Réglages</button>
+        <button id="exportBtn" class="button ghost" type="button">Exporter</button>
+        <button id="importBtn" class="button ghost" type="button">Importer</button>
+        <input id="importFile" class="sr-only" type="file" accept="application/json">
+      </section>
+
+      <section id="grid" class="grid" aria-live="polite"></section>
+
+      <section id="tableView" class="table-panel hidden" aria-live="polite">
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th scope="col">Service</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Incident</th>
+              <th scope="col">Dernière vérification</th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </section>
+
+      <p id="emptyState" class="empty hidden">Aucun service ne correspond à ce filtre.</p>
+    </main>
+
+    <dialog id="serviceDialog" class="modal">
+      <form id="serviceForm" method="dialog" novalidate>
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">SERVICE</p>
+            <h2 id="serviceDialogTitle">Ajouter un service</h2>
+          </div>
+          <button class="icon-button" data-close-dialog="serviceDialog" type="button" aria-label="Fermer">×</button>
+        </div>
+
+        <input id="serviceId" type="hidden">
+
+        <label class="field">
+          <span>Nom affiché</span>
+          <input id="serviceName" required placeholder="Ex. Make">
+        </label>
+
+        <label class="field">
+          <span>URL publique de la page de statut</span>
+          <div class="detect-row">
+            <input id="pageUrl" type="url" required placeholder="https://status.exemple.com/">
+            <button id="detectBtn" class="button secondary" type="button">Détecter</button>
+          </div>
+        </label>
+
+        <div id="detectionResult" class="detection hidden" role="status"></div>
+
+        <details id="advancedFields" class="advanced">
+          <summary>Configuration avancée / correction manuelle</summary>
+          <label class="field">
+            <span>Type de page de statut</span>
+            <select id="provider" required>
+              <option value="">Détecter automatiquement d’abord…</option>
+              <option value="atlassian">Atlassian Statuspage</option>
+              <option value="instatus">Instatus</option>
+              <option value="incidentio">Incident.io</option>
+              <option value="pulsetic">Pulsetic</option>
+              <option value="google">Google Status JSON</option>
+              <option value="sorryapp">SorryApp (lecture HTML)</option>
+              <option value="statusio-html">Status.io (lecture HTML)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>URL sondée</span>
+            <input id="endpoint" type="url" required placeholder="URL de l’API ou de la page HTML">
+          </label>
+          <label class="field small">
+            <span>Méthode HTTP</span>
+            <select id="method">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+            </select>
+          </label>
+        </details>
+
+        <label class="toggle enabled-toggle">
+          <input id="enabled" type="checkbox" checked>
+          <span>Activer la surveillance de ce service</span>
+        </label>
+
+        <p id="formError" class="form-error hidden"></p>
+
+        <div class="modal-actions">
+          <button class="button secondary" data-close-dialog="serviceDialog" type="button">Annuler</button>
+          <button id="saveServiceBtn" class="button primary" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="settingsDialog" class="modal compact">
+      <form id="settingsForm" method="dialog">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">PRÉFÉRENCES</p>
+            <h2>Réglages</h2>
+          </div>
+          <button class="icon-button" data-close-dialog="settingsDialog" type="button" aria-label="Fermer">×</button>
+        </div>
+
+        <label class="field">
+          <span>Actualisation automatique</span>
+          <select id="refreshMinutes">
+            <option value="5">Toutes les 5 minutes</option>
+            <option value="10">Toutes les 10 minutes</option>
+            <option value="15">Toutes les 15 minutes</option>
+            <option value="30">Toutes les 30 minutes</option>
+            <option value="60">Toutes les heures</option>
+          </select>
+        </label>
+
+        <label class="toggle">
+          <input id="notificationsEnabled" type="checkbox">
+          <span>Notifier lors de l’apparition d’un incident lorsque cette page reste ouverte</span>
+        </label>
+
+        <div class="settings-section">
+          <p class="settings-title">Connexion aux pages de statut</p>
+          <label class="toggle">
+            <input id="proxyFallbackEnabled" type="checkbox">
+            <span>Utiliser un proxy CORS de secours si l’accès direct échoue</span>
+          </label>
+          <label class="field">
+            <span>URL du proxy CORS</span>
+            <input id="corsProxyBase" type="url" placeholder="https://corsproxy.io/?">
+          </label>
+          <p class="field-hint">Spécifique à la version web : l’extension Chrome n’a normalement pas besoin de ce proxy.</p>
+        </div>
+
+        <div class="settings-section">
+          <p class="settings-title">Affichage</p>
+
+          <div class="settings-grid">
+            <label class="field">
+              <span>Mode d’affichage</span>
+              <select id="viewMode">
+                <option value="cards">Cartes</option>
+                <option value="table">Tableau</option>
+              </select>
+            </label>
+
+            <label id="cardDensityField" class="field">
+              <span>Densité des cartes</span>
+              <select id="cardDensity">
+                <option value="comfortable">Confortable</option>
+                <option value="compact">Compacte</option>
+                <option value="dense">Très compacte</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Tri</span>
+            <select id="sortMode">
+              <option value="alphabetical">Alphabétique</option>
+              <option value="status">Incidents d’abord</option>
+            </select>
+          </label>
+          <p class="field-hint">Les erreurs de lecture apparaissent aussi avant les services opérationnels lorsque les incidents sont prioritaires.</p>
+        </div>
+
+        <div class="settings-actions">
+          <button id="restoreDefaultsBtn" class="button danger" type="button">Restaurer les services initiaux</button>
+          <div class="right-actions">
+            <button class="button secondary" data-close-dialog="settingsDialog" type="button">Annuler</button>
+            <button class="button primary" type="submit">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="cardTemplate">
+      <article class="status-card">
+        <div class="card-head">
+          <div>
+            <h2 class="card-name"></h2>
+          </div>
+          <div class="card-actions">
+            <button class="mini-button refresh-one" type="button" title="Actualiser">↻</button>
+            <button class="mini-button edit-one" type="button" title="Modifier">✎</button>
+            <button class="mini-button delete-one" type="button" title="Supprimer">×</button>
+          </div>
+        </div>
+        <div class="card-status">
+          <span class="dot" aria-hidden="true"></span>
+          <strong class="status-label"></strong>
+        </div>
+        <p class="incident-title hidden"></p>
+        <div class="card-foot">
+          <span class="checked-at"></span>
+          <a class="external-link" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>

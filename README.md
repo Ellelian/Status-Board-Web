@@ -29,8 +29,6 @@ Elle sert à comparer les deux approches avant de choisir entre :
 | Vérifications automatiques | Tant que la page est ouverte | Worker / alarmes de l’extension |
 | Notifications | Tant que la page est ouverte | Peut fonctionner via l’extension en arrière-plan |
 
-Cette version n’intègre volontairement **pas encore Supabase**. Une fois l’approche choisie, la synchronisation multi-sessions pourra être ajoutée à la version retenue.
-
 ## Proxy CORS
 
 Une page web ne peut pas toujours interroger directement des domaines tiers. La version GitHub Pages utilise donc :

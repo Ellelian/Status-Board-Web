@@ -104,7 +104,7 @@ function updateFavicon(alertCount) {
   context.strokeStyle = brandBlue;
   context.stroke();
 
-  context.fillStyle = hasAlert ? brandBlue : '#FFFFFF';
+  context.fillStyle = '#FFFFFF';
   context.font = `800 ${value.length === 2 ? 27 : 38}px system-ui, -apple-system, Segoe UI, sans-serif`;
   context.textAlign = 'center';
   context.textBaseline = 'middle';

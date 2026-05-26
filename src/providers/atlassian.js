@@ -67,7 +67,14 @@ export function parseAtlassian(data) {
     ? data.components
         .map((component) => ({ component, level: mapImpact(component.status) }))
         .filter(({ component, level }) => normalize(component.status) !== 'operational' && level !== 'ok')
-        .sort((a, b) => (LEVEL_SCORE[b.level] || 0) - (LEVEL_SCORE[a.level] || 0))[0]
+        .sort((a, b) => {
+          const severityDifference = (LEVEL_SCORE[b.level] || 0) - (LEVEL_SCORE[a.level] || 0);
+          if (severityDifference !== 0) return severityDifference;
+
+          // À niveau identique, un composant concret est plus informatif qu'un groupe parent :
+          // ex. "Twilio Group Rooms" plutôt que "INFRASTRUCTURE" chez WebinarJam.
+          return Number(Boolean(a.component.group)) - Number(Boolean(b.component.group));
+        })[0]
     : null;
 
   if (pageLevel !== 'ok') {

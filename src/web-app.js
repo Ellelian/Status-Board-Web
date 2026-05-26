@@ -22,11 +22,11 @@ let initialised = false;
 export async function initialiseWebApp() {
   if (initialised) return;
   await initialiseStorage();
-  await scheduleRefresh();
   initialised = true;
-  if (!(await getLastRefreshAt())) {
-    await refreshAll({ allowNotifications: false });
-  }
+
+  // À l'ouverture, les statuts ne doivent pas rester affichés au-delà
+  // de la fréquence demandée dans les réglages.
+  await refreshIfStaleOrSchedule({ allowNotifications: false });
 }
 
 export async function dispatch(type, payload = {}) {
@@ -42,26 +42,27 @@ export async function dispatch(type, payload = {}) {
       await removeService(payload.id);
       return getState();
     case 'REFRESH_ALL':
-      await refreshAll({ allowNotifications: false });
+      // Un rafraîchissement manuel complet redémarre le délai automatique.
+      await refreshAll({ allowNotifications: false, resetTimer: true });
       return getState();
     case 'REFRESH_ONE':
       await refreshOne(payload.id);
       return getState();
     case 'SAVE_SETTINGS':
       await saveSettings(payload.settings);
-      await scheduleRefresh();
+      // Si le nouveau délai rend les données déjà périmées, vérifie immédiatement.
+      // Sinon, planifie le prochain contrôle à l'échéance réelle.
+      await refreshIfStaleOrSchedule({ allowNotifications: false });
       return getState();
     case 'RESTORE_DEFAULTS':
       await initialiseStorage({ forceDefaults: true });
-      await scheduleRefresh();
-      await refreshAll({ allowNotifications: false });
+      await refreshAll({ allowNotifications: false, resetTimer: true });
       return getState();
     case 'EXPORT_CONFIG':
       return exportConfig();
     case 'IMPORT_CONFIG':
       await importConfig(payload.payload);
-      await scheduleRefresh();
-      await refreshAll({ allowNotifications: false });
+      await refreshAll({ allowNotifications: false, resetTimer: true });
       return getState();
     default:
       throw new Error('Action inconnue.');
@@ -105,16 +106,51 @@ function normaliseHttpsUrl(value, label) {
   return parsed.href.replace(/\/$/, '');
 }
 
-async function scheduleRefresh() {
-  if (refreshTimer) clearInterval(refreshTimer);
-  const settings = await getSettings();
+function refreshDelayMs(settings) {
   const minutes = Math.max(5, Number(settings.refreshMinutes) || 5);
-  refreshTimer = setInterval(() => {
-    refreshAll({ allowNotifications: true }).catch((error) => console.error('[refresh]', error));
-  }, minutes * 60 * 1000);
+  return minutes * 60 * 1000;
 }
 
-async function refreshAll({ allowNotifications }) {
+function clearRefreshTimer() {
+  if (!refreshTimer) return;
+  clearTimeout(refreshTimer);
+  refreshTimer = null;
+}
+
+async function scheduleRefresh(delayOverrideMs) {
+  clearRefreshTimer();
+  const settings = await getSettings();
+  const delay = Number.isFinite(delayOverrideMs)
+    ? Math.max(0, delayOverrideMs)
+    : refreshDelayMs(settings);
+
+  refreshTimer = setTimeout(async () => {
+    try {
+      await refreshAll({ allowNotifications: true, resetTimer: true });
+    } catch (error) {
+      console.error('[refresh]', error);
+      // En cas d'échec imprévu, on ne coupe pas définitivement l'actualisation.
+      await scheduleRefresh();
+    }
+  }, delay);
+}
+
+async function refreshIfStaleOrSchedule({ allowNotifications }) {
+  const [settings, lastRefreshAt] = await Promise.all([getSettings(), getLastRefreshAt()]);
+  const interval = refreshDelayMs(settings);
+  const lastTimestamp = lastRefreshAt ? new Date(lastRefreshAt).getTime() : NaN;
+  const elapsed = Number.isFinite(lastTimestamp) ? Math.max(0, Date.now() - lastTimestamp) : Infinity;
+  const remaining = interval - elapsed;
+
+  if (remaining <= 0) {
+    await refreshAll({ allowNotifications, resetTimer: true });
+    return;
+  }
+
+  await scheduleRefresh(remaining);
+}
+
+async function refreshAll({ allowNotifications, resetTimer = false }) {
   const [services, previous, settings] = await Promise.all([getServices(), getStatuses(), getSettings()]);
   const checks = await Promise.all(services.map((service) => checkService(service)));
   const statuses = Object.fromEntries(checks.map((check) => [check.serviceId, check]));
@@ -122,6 +158,7 @@ async function refreshAll({ allowNotifications }) {
   await Promise.all([saveStatuses(statuses), setLastRefreshAt(timestamp)]);
   if (allowNotifications && settings.notificationsEnabled) notifyTransitions(services, previous, statuses);
   window.dispatchEvent(new CustomEvent('statusboard:updated'));
+  if (resetTimer) await scheduleRefresh();
   return statuses;
 }
 
@@ -132,7 +169,9 @@ async function refreshOne(id) {
   const statuses = await getStatuses();
   statuses[id] = await checkService(service);
   await saveStatuses(statuses);
-  await setLastRefreshAt(new Date().toISOString());
+
+  // Une vérification individuelle ne remplace pas une actualisation complète :
+  // elle ne modifie ni l'horodatage global ni le prochain contrôle automatique.
   return statuses[id];
 }
 

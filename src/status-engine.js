@@ -1,6 +1,7 @@
 import { fetchJson, fetchText, safeMessage } from './utils.js';
 import {
   parseAtlassian,
+  parseBetterStack,
   parseInstatus,
   parseIncidentIo,
   parseGoogle,
@@ -11,6 +12,7 @@ import {
 
 export const PROVIDER_NAMES = {
   atlassian: 'Atlassian Statuspage',
+  betterstack: 'Better Stack',
   instatus: 'Instatus',
   incidentio: 'Incident.io',
   pulsetic: 'Pulsetic',
@@ -56,6 +58,11 @@ export async function checkService(service) {
       case 'instatus': {
         const { data } = await fetchJson(service.endpoint, { method: service.method || 'GET' });
         parsed = parseInstatus(data);
+        break;
+      }
+      case 'betterstack': {
+        const { data } = await fetchJson(service.endpoint, { method: service.method || 'GET' });
+        parsed = parseBetterStack(data);
         break;
       }
       case 'atlassian': {

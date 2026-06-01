@@ -14,6 +14,33 @@ function writeStore(store) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
 
+function migrateKnownServices(store) {
+  if (!Array.isArray(store.services)) return false;
+
+  let changed = false;
+  store.services = store.services.map((service) => {
+    const pageUrl = String(service.pageUrl || '');
+    const endpoint = String(service.endpoint || '');
+    const looksLikeGoHighLevel =
+      /status\.gohighlevel\.com/i.test(pageUrl)
+      || /api\.pulsetic\.com\/public\/status\/status\.gohighlevel\.com/i.test(endpoint);
+
+    if (!looksLikeGoHighLevel || service.provider === 'betterstack') return service;
+
+    changed = true;
+    return {
+      ...service,
+      pageUrl: 'https://status.gohighlevel.com',
+      endpoint: 'https://status.gohighlevel.com/index.json',
+      provider: 'betterstack',
+      method: 'GET',
+      updatedAt: new Date().toISOString()
+    };
+  });
+
+  return changed;
+}
+
 export async function initialiseStorage({ forceDefaults = false } = {}) {
   const store = readStore();
   if (forceDefaults || !Array.isArray(store.services)) store.services = instantiateDefaultServices();
@@ -22,6 +49,7 @@ export async function initialiseStorage({ forceDefaults = false } = {}) {
     store.statuses = {};
     store.lastRefreshAt = null;
   }
+  migrateKnownServices(store);
   writeStore(store);
 }
 

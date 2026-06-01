@@ -11,7 +11,7 @@ export const DEFAULT_SERVICES = [
   { name: 'ClickSend', pageUrl: 'https://status.clicksend.com', endpoint: 'https://status.clicksend.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'Google Cloud', pageUrl: 'https://status.cloud.google.com', endpoint: 'https://status.cloud.google.com/incidents.json', provider: 'google', method: 'GET' },
   { name: 'Google Workspace', pageUrl: 'https://www.google.com/appsstatus/dashboard', endpoint: 'https://www.google.com/appsstatus/dashboard/incidents.json', provider: 'google', method: 'GET' },
-  { name: 'GoHighLevel', pageUrl: 'https://status.gohighlevel.com', endpoint: 'https://api.pulsetic.com/public/status/status.gohighlevel.com', provider: 'pulsetic', method: 'POST' },
+  { name: 'GoHighLevel', pageUrl: 'https://status.gohighlevel.com', endpoint: 'https://status.gohighlevel.com/index.json', provider: 'betterstack', method: 'GET' },
   { name: 'Leadpages', pageUrl: 'https://status.leadpages.com', endpoint: 'https://status.leadpages.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'Make', pageUrl: 'https://status.make.com', endpoint: 'https://status.make.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'ManyChat', pageUrl: 'https://status.manychat.com', endpoint: 'https://status.manychat.com/summary.json', provider: 'instatus', method: 'GET' },

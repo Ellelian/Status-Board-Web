@@ -1,6 +1,7 @@
 import { fetchJson, fetchText, safeMessage } from './utils.js';
 import {
   recognisesAtlassian,
+  recognisesBetterStack,
   recognisesInstatus,
   recognisesIncidentIo,
   recognisesGoogle,
@@ -8,6 +9,7 @@ import {
   recognisesSorryApp,
   recognisesStatusIo,
   parseAtlassian,
+  parseBetterStack,
   parseInstatus,
   parseIncidentIo,
   parseGoogle,
@@ -70,7 +72,8 @@ export async function detectStatusPage(inputUrl) {
     for (const origin of origins) {
       const candidates = [
         `${origin}/api/v2/summary.json`,
-        `${origin}/summary.json`
+        `${origin}/summary.json`,
+        `${origin}/index.json`
       ];
       for (const endpoint of candidates) {
         console.info('Sonde JSON :', endpoint);
@@ -85,6 +88,11 @@ export async function detectStatusPage(inputUrl) {
             { pageUrl: canonicalPageUrl, endpoint: finalUrl || endpoint, provider: 'incidentio', method: 'GET' },
             parseIncidentIo(data),
             'Incident.io'
+          );
+          if (recognisesBetterStack(data)) return found(
+            { pageUrl: canonicalPageUrl, endpoint: finalUrl || endpoint, provider: 'betterstack', method: 'GET' },
+            parseBetterStack(data),
+            'Better Stack'
           );
           if (recognisesInstatus(data)) return found(
             { pageUrl: canonicalPageUrl, endpoint: finalUrl || endpoint, provider: 'instatus', method: 'GET' },

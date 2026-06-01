@@ -90,7 +90,7 @@ async function saveService(input) {
     updatedAt: now
   };
   if (!service.name) throw new Error('Le nom du service est obligatoire.');
-  if (!['atlassian', 'instatus', 'incidentio', 'pulsetic', 'google', 'sorryapp', 'statusio-html'].includes(service.provider)) {
+  if (!['atlassian', 'betterstack', 'instatus', 'incidentio', 'pulsetic', 'google', 'sorryapp', 'statusio-html'].includes(service.provider)) {
     throw new Error('Le type de page de statut est invalide.');
   }
   await upsertService(service);

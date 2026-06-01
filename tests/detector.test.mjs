@@ -32,12 +32,16 @@ assert.equal(detected.config.provider, 'incidentio');
 assert.equal(detected.config.pageUrl, 'https://linearstatus.com/');
 
 withRoutes({
-  'GET https://status.gohighlevel.com/': () => response('<html>GHL</html>', { url: 'https://status.gohighlevel.com/' }),
-  'POST https://api.pulsetic.com/public/status/status.gohighlevel.com': () => response({ data: { monitors: [{ name: 'App', status: 'online' }], incidents: [] } }, { url: 'https://api.pulsetic.com/public/status/status.gohighlevel.com' })
+  'GET https://status.gohighlevel.com/': () => response('<html>GHL — Powered by Better Stack</html>', { url: 'https://status.gohighlevel.com/' }),
+  'GET https://status.gohighlevel.com/index.json': () => response({
+    data: { type: 'status_page', attributes: { aggregate_state: 'operational' } },
+    included: []
+  }, { url: 'https://status.gohighlevel.com/index.json' })
 });
 detected = await detectStatusPage('https://status.gohighlevel.com/');
-assert.equal(detected.config.provider, 'pulsetic');
-assert.equal(detected.config.method, 'POST');
+assert.equal(detected.config.provider, 'betterstack');
+assert.equal(detected.config.endpoint, 'https://status.gohighlevel.com/index.json');
+assert.equal(detected.config.method, 'GET');
 
 withRoutes({
   'GET https://status.pipedrive.com/': () => response('<html><h2>All systems are go</h2><p>Powered by Sorry</p></html>', { url: 'https://status.pipedrive.com/' })

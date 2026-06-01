@@ -5,3 +5,5 @@ export { parseGoogle, recognisesGoogle } from './google.js';
 export { parsePulsetic, recognisesPulsetic } from './pulsetic.js';
 export { parseSorryApp, recognisesSorryApp } from './sorryapp.js';
 export { parseStatusIo, recognisesStatusIo } from './statusio.js';
+
+export { parseBetterStack, recognisesBetterStack } from './betterstack.js';

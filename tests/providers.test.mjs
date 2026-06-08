@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { parseAtlassian } from '../src/providers/atlassian.js';
+import { parseSimpleHtml, recognisesSimpleHtml } from '../src/providers/simplehtml.js';
 import { parseBetterStack } from '../src/providers/betterstack.js';
 import { parseGoogle } from '../src/providers/google.js';
 import { parseIncidentIo } from '../src/providers/incidentio.js';
@@ -124,6 +125,42 @@ assert.deepEqual(
     ]
   }),
   { level: 'maintenance', title: 'Maintenance API' }
+);
+assert.equal(
+  recognisesSimpleHtml(`
+    <h1>Passcreator Status Page</h1>
+    <h2>Passcreator Main Cluster Status</h2>
+    <div>Frontend Application Operational</div>
+    <div>API Operational</div>
+  `),
+  true
+);
+assert.deepEqual(
+  parseSimpleHtml(`
+    <h1>Passcreator Status Page</h1>
+    <h2>Passcreator Main Cluster Status</h2>
+    <div>Frontend Application Operational</div>
+    <div>Asynchronous Processing Service Operational</div>
+    <div>API Operational</div>
+    <div>Pass Download Page Operational</div>
+  `),
+  { level: 'ok', title: '' }
+);
+assert.deepEqual(
+  parseSimpleHtml(`
+    <h1>Vendor Status Page</h1>
+    <div>Frontend Application Operational</div>
+    <div>API Degraded Performance</div>
+  `),
+  { level: 'minor', title: 'API' }
+);
+assert.deepEqual(
+  parseSimpleHtml(`
+    <h1>Vendor Status Page</h1>
+    <div>API Operational</div>
+    <div>Download Page Major Outage</div>
+  `),
+  { level: 'major', title: 'Download Page' }
 );
 assert.equal(parseGoogle([{ end: '2026-05-20T10:00:00Z', most_recent_update: { status: 'AVAILABLE' } }]).level, 'ok');
 assert.equal(parseGoogle([{ service_name: 'Gmail', severity: 'medium', most_recent_update: { status: 'SERVICE_DISRUPTION' } }]).level, 'minor');

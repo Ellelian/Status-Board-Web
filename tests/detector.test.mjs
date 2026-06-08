@@ -51,6 +51,27 @@ assert.equal(detected.config.provider, 'sorryapp');
 assert.equal(detected.sample.level, 'ok');
 
 withRoutes({
+  'GET https://status.passcreator.com/': () => response(`
+    <html>
+      <body>
+        <h1>Passcreator Status Page</h1>
+        <h2>Passcreator Main Cluster Status</h2>
+        <div>Frontend Application Operational</div>
+        <div>API Operational</div>
+      </body>
+    </html>
+  `, { url: 'https://status.passcreator.com/' }),
+  'GET https://status.passcreator.com/api/v2/summary.json': () => response('Not found', { status: 404, url: 'https://status.passcreator.com/api/v2/summary.json' }),
+  'GET https://status.passcreator.com/summary.json': () => response('Not found', { status: 404, url: 'https://status.passcreator.com/summary.json' }),
+  'GET https://status.passcreator.com/index.json': () => response('Not found', { status: 404, url: 'https://status.passcreator.com/index.json' }),
+  'POST https://api.pulsetic.com/public/status/status.passcreator.com': () => response('Not found', { status: 404, url: 'https://api.pulsetic.com/public/status/status.passcreator.com' })
+});
+detected = await detectStatusPage('https://status.passcreator.com/');
+assert.equal(detected.config.provider, 'simple-html');
+assert.equal(detected.config.endpoint, 'https://status.passcreator.com/');
+assert.equal(detected.sample.level, 'ok');
+
+withRoutes({
   'GET https://status.cloud.google.com/': () => response('<html>GCloud</html>', { url: 'https://status.cloud.google.com/' }),
   'GET https://status.cloud.google.com/incidents.json': () => response([{ end: '2026-05-20T00:00:00Z', most_recent_update: { status: 'AVAILABLE' } }], { url: 'https://status.cloud.google.com/incidents.json' })
 });

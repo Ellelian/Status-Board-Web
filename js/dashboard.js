@@ -52,6 +52,34 @@ const elements = {
   favicon: $('#favicon')
 };
 
+const PROVIDER_OPTIONS = {
+  atlassian: 'Atlassian Statuspage',
+  betterstack: 'Better Stack',
+  instatus: 'Instatus',
+  incidentio: 'Incident.io',
+  pulsetic: 'Pulsetic',
+  google: 'Google Status',
+  sorryapp: 'SorryApp',
+  'statusio-html': 'Status.io',
+  'simple-html': 'HTML simple'
+};
+
+function ensureProviderOptions() {
+  if (!elements.provider) return;
+  Object.entries(PROVIDER_OPTIONS).forEach(([value, label]) => {
+    if (elements.provider.querySelector(`option[value="${value}"]`)) return;
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    elements.provider.appendChild(option);
+  });
+}
+
+function setProviderValue(value) {
+  ensureProviderOptions();
+  elements.provider.value = value || '';
+}
+
 async function send(type, payload = {}) {
   return dispatch(type, payload);
 }
@@ -313,7 +341,7 @@ async function detectService() {
     const detection = await send('DETECT_SERVICE', { pageUrl });
     const { config, sample, detectionNote } = detection;
     elements.pageUrl.value = config.pageUrl;
-    elements.provider.value = config.provider;
+    setProviderValue(config.provider);
     elements.endpoint.value = config.endpoint;
     elements.method.value = config.method || 'GET';
     elements.advancedFields.open = true;
@@ -489,6 +517,8 @@ document.querySelectorAll('[data-close-dialog]').forEach((button) => {
 window.addEventListener('statusboard:updated', () => loadState().catch(console.error));
 
 setInterval(renderUpdatedAt, 1000);
+ensureProviderOptions();
+
 initialiseWebApp()
   .then(() => loadState())
   .catch((error) => {

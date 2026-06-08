@@ -7,3 +7,5 @@ export { parseSorryApp, recognisesSorryApp } from './sorryapp.js';
 export { parseStatusIo, recognisesStatusIo } from './statusio.js';
 
 export { parseBetterStack, recognisesBetterStack } from './betterstack.js';
+
+export { parseSimpleHtml, recognisesSimpleHtml } from './simplehtml.js';

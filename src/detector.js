@@ -6,6 +6,7 @@ import {
   recognisesIncidentIo,
   recognisesGoogle,
   recognisesPulsetic,
+  recognisesSimpleHtml,
   recognisesSorryApp,
   recognisesStatusIo,
   parseAtlassian,
@@ -14,6 +15,7 @@ import {
   parseIncidentIo,
   parseGoogle,
   parsePulsetic,
+  parseSimpleHtml,
   parseSorryApp,
   parseStatusIo
 } from './providers/index.js';
@@ -133,6 +135,11 @@ export async function detectStatusPage(inputUrl) {
       { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'statusio-html', method: 'GET' },
       parseStatusIo(html),
       'Status.io — lecture HTML'
+    );
+    if (html && recognisesSimpleHtml(html)) return found(
+      { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'simple-html', method: 'GET' },
+      parseSimpleHtml(html),
+      'HTML simple — lecture de la page'
     );
 
     throw new Error(`Aucun format reconnu. Tentatives :\n${attempts.join('\n')}`);

@@ -6,6 +6,7 @@ import {
   parseIncidentIo,
   parseGoogle,
   parsePulsetic,
+  parseSimpleHtml,
   parseSorryApp,
   parseStatusIo
 } from './providers/index.js';
@@ -16,6 +17,7 @@ export const PROVIDER_NAMES = {
   instatus: 'Instatus',
   incidentio: 'Incident.io',
   pulsetic: 'Pulsetic',
+  'simple-html': 'HTML simple',
   google: 'Google Status',
   sorryapp: 'SorryApp',
   'statusio-html': 'Status.io'
@@ -38,6 +40,11 @@ export async function checkService(service) {
       case 'statusio-html': {
         const { text } = await fetchText(service.endpoint);
         parsed = parseStatusIo(text);
+        break;
+      }
+      case 'simple-html': {
+        const { text } = await fetchText(service.endpoint);
+        parsed = parseSimpleHtml(text);
         break;
       }
       case 'pulsetic': {

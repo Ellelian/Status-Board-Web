@@ -72,6 +72,23 @@ assert.equal(detected.config.endpoint, 'https://status.passcreator.com/');
 assert.equal(detected.sample.level, 'ok');
 
 withRoutes({
+  'GET https://metastatus.com/': () => response(`
+    <html>
+      <head><title>Status and outages of Meta business products</title></head>
+      <body>
+        <h1>Meta Status</h1>
+        <div>Facebook Login No known issues</div>
+        <div>Graph API No known issues</div>
+      </body>
+    </html>
+  `, { url: 'https://metastatus.com/' })
+});
+detected = await detectStatusPage('https://metastatus.com/');
+assert.equal(detected.config.provider, 'metastatus');
+assert.equal(detected.config.endpoint, 'https://metastatus.com/');
+assert.equal(detected.sample.level, 'ok');
+
+withRoutes({
   'GET https://status.cloud.google.com/': () => response('<html>GCloud</html>', { url: 'https://status.cloud.google.com/' }),
   'GET https://status.cloud.google.com/incidents.json': () => response([{ end: '2026-05-20T00:00:00Z', most_recent_update: { status: 'AVAILABLE' } }], { url: 'https://status.cloud.google.com/incidents.json' })
 });

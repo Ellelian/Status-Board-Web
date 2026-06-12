@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { parseAtlassian } from '../src/providers/atlassian.js';
+import { parseMetaStatus, recognisesMetaStatus } from '../src/providers/metastatus.js';
 import { parseSimpleHtml, recognisesSimpleHtml } from '../src/providers/simplehtml.js';
 import { parseBetterStack } from '../src/providers/betterstack.js';
 import { parseGoogle } from '../src/providers/google.js';
@@ -161,6 +162,22 @@ assert.deepEqual(
     <div>Download Page Major Outage</div>
   `),
   { level: 'major', title: 'Download Page' }
+);
+assert.equal(
+  recognisesMetaStatus('<title>Status and outages of Meta business products</title><h1>Meta Status</h1>'),
+  true
+);
+assert.deepEqual(
+  parseMetaStatus('<h1>Marketing API Status</h1><p>The service is up and running with no known issues.</p>'),
+  { level: 'ok', title: '' }
+);
+assert.deepEqual(
+  parseMetaStatus('<h1>Facebook Ads Manager Status</h1><div>Facebook Ads Manager High disruptions</div>'),
+  { level: 'major', title: 'Facebook Ads Manager' }
+);
+assert.deepEqual(
+  parseMetaStatus('<h1>WhatsApp Business Platform Status</h1><div>Media Messages API Medium disruptions</div>'),
+  { level: 'minor', title: 'Media Messages API' }
 );
 assert.equal(parseGoogle([{ end: '2026-05-20T10:00:00Z', most_recent_update: { status: 'AVAILABLE' } }]).level, 'ok');
 assert.equal(parseGoogle([{ service_name: 'Gmail', severity: 'medium', most_recent_update: { status: 'SERVICE_DISRUPTION' } }]).level, 'minor');

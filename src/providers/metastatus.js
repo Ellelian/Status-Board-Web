@@ -18,10 +18,23 @@ function plainText(html) {
   return htmlToLines(html).join(' ');
 }
 
+const META_STATUS_ENDPOINT = 'https://metastatus.com/data/orgs.json';
+
 const STATUS_PATTERNS = [
-  { level: 'ok', pattern: /\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running|resolved)\b/i },
-  { level: 'major', pattern: /\b(?:high\s+disruptions?|major\s+disruptions?|major\s+outage|outage|down|unavailable)\b/i },
-  { level: 'minor', pattern: /\b(?:medium\s+disruptions?|low\s+disruptions?|minor\s+disruptions?|some\s+disruptions?|degraded|partial\s+outage|issues?)\b/i }
+  { level: 'ok', phrase: 'No known issues', pattern: /\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running)\b/i },
+  { level: 'ok', phrase: 'Resolved', pattern: /\bresolved\b/i },
+  { level: 'major', phrase: 'High disruptions', pattern: /\bhigh\s+disruptions?\b/i },
+  { level: 'major', phrase: 'Major disruptions', pattern: /\bmajor\s+disruptions?\b/i },
+  { level: 'major', phrase: 'Major outage', pattern: /\bmajor\s+outage\b/i },
+  { level: 'major', phrase: 'Outage', pattern: /\boutage\b/i },
+  { level: 'major', phrase: 'Down', pattern: /\bdown\b/i },
+  { level: 'major', phrase: 'Unavailable', pattern: /\bunavailable\b/i },
+  { level: 'minor', phrase: 'Medium disruptions', pattern: /\bmedium\s+disruptions?\b/i },
+  { level: 'minor', phrase: 'Low disruptions', pattern: /\blow\s+disruptions?\b/i },
+  { level: 'minor', phrase: 'Some disruptions', pattern: /\bsome\s+disruptions?\b/i },
+  { level: 'minor', phrase: 'Partial outage', pattern: /\bpartial\s+outage\b/i },
+  { level: 'minor', phrase: 'Degraded', pattern: /\bdegraded\b/i },
+  { level: 'minor', phrase: 'Issues', pattern: /\bissues?\b/i }
 ];
 
 const META_CATEGORIES = [
@@ -115,6 +128,14 @@ function rawSearchText(html) {
     .trim();
 }
 
+function statusForText(value) {
+  const text = normaliseLine(value);
+  for (const status of STATUS_PATTERNS) {
+    if (status.pattern.test(text)) return { level: status.level, phrase: status.phrase };
+  }
+  return null;
+}
+
 function isCategoryLine(line) {
   const normalised = normaliseLine(line).toLowerCase();
   return META_CATEGORIES.includes(normalised);
@@ -128,40 +149,6 @@ function isGenericLine(line) {
 function isUiLine(line) {
   const value = normaliseLine(line);
   return isGenericLine(value) || /\bicon\b/i.test(value);
-}
-
-function statusForLine(line) {
-  for (const status of STATUS_PATTERNS) {
-    const match = String(line || '').match(status.pattern);
-    if (match) {
-      return {
-        level: status.level,
-        phrase: normaliseStatusPhrase(match[0], status.level)
-      };
-    }
-  }
-  return null;
-}
-
-function normaliseStatusPhrase(value, level) {
-  const phrase = normaliseLine(value)
-    .replace(/\bhigh disruptions?\b/i, 'High disruptions')
-    .replace(/\bmedium disruptions?\b/i, 'Medium disruptions')
-    .replace(/\blow disruptions?\b/i, 'Low disruptions')
-    .replace(/\bmajor disruptions?\b/i, 'Major disruptions')
-    .replace(/\bminor disruptions?\b/i, 'Minor disruptions')
-    .replace(/\bsome disruptions?\b/i, 'Some disruptions')
-    .replace(/\bmajor outage\b/i, 'Major outage')
-    .replace(/\bpartial outage\b/i, 'Partial outage')
-    .replace(/\bdegraded\b/i, 'Degraded')
-    .replace(/\bno known issues\b/i, 'No known issues')
-    .replace(/\bresolved\b/i, 'Resolved')
-    .replace(/\bissues?\b/i, 'Issues')
-    .replace(/\bdown\b/i, 'Down')
-    .replace(/\bunavailable\b/i, 'Unavailable');
-
-  if (phrase) return phrase;
-  return level === 'major' ? 'High disruptions' : 'Disruptions';
 }
 
 function stripLeadingCategory(title) {
@@ -185,9 +172,9 @@ function escapeRegExp(value) {
 
 function titleFromLine(line) {
   let title = normaliseLine(line)
+    .replace(/\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running|resolved)\b/ig, '')
     .replace(/\b(?:high\s+disruptions?|major\s+disruptions?|major\s+outage|outage|down|unavailable)\b/ig, '')
     .replace(/\b(?:medium\s+disruptions?|low\s+disruptions?|minor\s+disruptions?|some\s+disruptions?|degraded|partial\s+outage|issues?)\b/ig, '')
-    .replace(/\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running|resolved)\b/ig, '')
     .replace(/\b(?:status|updated|rss feed|view history|view event history|icon)\b/ig, '')
     .replace(/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b\.?\s+\d{1,2}\s+\d{4}(?:\s+\d{1,2}:\d{2}\s*(?:am|pm)?)?/ig, '')
     .replace(/[#:—–-]+/g, ' ')
@@ -199,18 +186,6 @@ function titleFromLine(line) {
   if (isCategoryLine(title) || isGenericLine(title) || isUiLine(title)) return '';
   if (title.length > 80) return title.slice(0, 77).trim() + '…';
   return title;
-}
-
-function previousProductTitle(lines, statusIndex) {
-  for (let index = statusIndex - 1; index >= Math.max(0, statusIndex - 12); index -= 1) {
-    const line = normaliseLine(lines[index]);
-    if (!line || statusForLine(line) || isCategoryLine(line) || isGenericLine(line) || isUiLine(line)) continue;
-
-    const title = titleFromLine(line);
-    if (title) return title;
-  }
-
-  return '';
 }
 
 function formatIssueTitle(title, phrase, level) {
@@ -256,16 +231,52 @@ function summariseIssues(issues) {
   };
 }
 
+function parseMetaStatusJson(orgs) {
+  if (!Array.isArray(orgs)) return null;
+
+  const issues = [];
+  let hasKnownStatus = false;
+
+  for (const org of orgs) {
+    const productName = normaliseLine(org?.name);
+    const services = Array.isArray(org?.services) ? org.services : [];
+
+    for (const service of services) {
+      const status = statusForText(service?.status);
+      if (!status) continue;
+      hasKnownStatus = true;
+      if (status.level === 'ok') continue;
+
+      const serviceName = normaliseLine(service?.name);
+      const title = serviceName && serviceName !== 'Platform Status'
+        ? `${productName} / ${serviceName}`
+        : productName;
+
+      issues.push({
+        level: status.level,
+        title: formatIssueTitle(title, status.phrase, status.level)
+      });
+    }
+  }
+
+  const issue = summariseIssues(issues);
+  if (issue) return issue;
+  if (hasKnownStatus) return { level: 'ok', title: '' };
+  return { level: 'error', title: 'État Meta Status JSON non reconnu' };
+}
+
 function sequentialIssuesFromLines(lines) {
   const issues = [];
   let currentProduct = '';
+  let hasKnownStatus = false;
 
   for (const rawLine of lines) {
     const line = normaliseLine(rawLine);
     if (!line || isCategoryLine(line) || isGenericLine(line) || isUiLine(line)) continue;
 
-    const status = statusForLine(line);
+    const status = statusForText(line);
     if (status) {
+      hasKnownStatus = true;
       const inlineTitle = titleFromLine(line);
       const title = inlineTitle || currentProduct;
 
@@ -281,7 +292,7 @@ function sequentialIssuesFromLines(lines) {
     if (product) currentProduct = product;
   }
 
-  return summariseIssues(issues);
+  return summariseIssues(issues) || (hasKnownStatus ? { level: 'ok', title: '' } : null);
 }
 
 function issueFromRawHtml(html) {
@@ -289,20 +300,8 @@ function issueFromRawHtml(html) {
   if (!raw) return null;
 
   const products = [...META_PRODUCTS].sort((a, b) => b.length - a.length);
-  const statuses = [
-    { level: 'major', phrase: 'High disruptions', pattern: /\bhigh\s+disruptions?\b/i },
-    { level: 'major', phrase: 'Major disruptions', pattern: /\bmajor\s+disruptions?\b/i },
-    { level: 'major', phrase: 'Major outage', pattern: /\bmajor\s+outage\b/i },
-    { level: 'minor', phrase: 'Medium disruptions', pattern: /\bmedium\s+disruptions?\b/i },
-    { level: 'minor', phrase: 'Low disruptions', pattern: /\blow\s+disruptions?\b/i },
-    { level: 'minor', phrase: 'Some disruptions', pattern: /\bsome\s+disruptions?\b/i },
-    { level: 'minor', phrase: 'Partial outage', pattern: /\bpartial\s+outage\b/i },
-    { level: 'minor', phrase: 'Degraded', pattern: /\bdegraded\b/i },
-    { level: 'ok', phrase: 'Resolved', pattern: /\bresolved\b/i },
-    { level: 'ok', phrase: 'No known issues', pattern: /\bno\s+known\s+issues\b/i }
-  ];
-
   const productMatches = [];
+
   for (const product of products) {
     const productPattern = new RegExp(`\\b${escapeRegExp(product).replace(/\\ /g, '\\s+')}\\b`, 'ig');
     let productMatch;
@@ -319,19 +318,12 @@ function issueFromRawHtml(html) {
     const nextProduct = productMatches.find((candidate) => candidate.index > productMatch.end);
     const boundary = Math.min(raw.length, nextProduct ? nextProduct.index : productMatch.end + 180);
     const windowText = raw.slice(productMatch.end, boundary);
+    const status = statusForText(windowText);
 
-    const nearestStatus = statuses
-      .map((status) => {
-        const match = windowText.match(status.pattern);
-        return match ? { ...status, index: match.index } : null;
-      })
-      .filter(Boolean)
-      .sort((a, b) => a.index - b.index)[0];
-
-    if (nearestStatus && nearestStatus.level !== 'ok') {
+    if (status && status.level !== 'ok') {
       issues.push({
-        level: nearestStatus.level,
-        title: formatIssueTitle(productMatch.product, nearestStatus.phrase, nearestStatus.level)
+        level: status.level,
+        title: formatIssueTitle(productMatch.product, status.phrase, status.level)
       });
     }
   }
@@ -339,13 +331,28 @@ function issueFromRawHtml(html) {
   return summariseIssues(issues);
 }
 
-export function recognisesMetaStatus(html) {
-  const text = `${plainText(html)} ${rawSearchText(html)}`;
+export function metaStatusEndpoint(input = 'https://metastatus.com/') {
+  try {
+    const parsed = new URL(input);
+    if (parsed.hostname === 'metastatus.com') return META_STATUS_ENDPOINT;
+  } catch {
+    // Fallback handled below.
+  }
+  return META_STATUS_ENDPOINT;
+}
+
+export function recognisesMetaStatus(input) {
+  if (Array.isArray(input)) return input.some((item) => item && typeof item.name === 'string' && Array.isArray(item.services));
+
+  const text = `${plainText(input)} ${rawSearchText(input)}`;
   return /metastatus\.com|Meta'?s?\s+status|Status\s+and\s+outages\s+of\s+Meta\s+business\s+products|Meta\s+Business\s+Status|Meta\.?\s+Home/i.test(text)
     || /Facebook\s+Login\s+Status|Graph\s+API\s+Status|Marketing\s+API\s+Status|WhatsApp\s+Business\s+Platform\s+Status|Facebook\s+Ads\s+Manager\s+Status/i.test(text);
 }
 
-export function parseMetaStatus(html) {
+export function parseMetaStatus(input) {
+  if (Array.isArray(input)) return parseMetaStatusJson(input);
+
+  const html = String(input || '');
   const lines = htmlToLines(html);
   const text = lines.join(' ');
 
@@ -355,29 +362,6 @@ export function parseMetaStatus(html) {
   const rawIssue = issueFromRawHtml(html);
   if (rawIssue) return rawIssue;
 
-  const candidates = lines
-    .map((line, index) => {
-      const status = statusForLine(line);
-      if (!status) return null;
-
-      const title = titleFromLine(line) || previousProductTitle(lines, index);
-      return {
-        level: status.level,
-        title: status.level === 'ok' ? '' : formatIssueTitle(title, status.phrase, status.level)
-      };
-    })
-    .filter(Boolean);
-
-  const issue = candidates
-    .filter((item) => item.level !== 'ok')
-    .sort((a, b) => severityScore(b.level) - severityScore(a.level))[0];
-
-  if (issue) return issue;
-
-  if (candidates.some((item) => item.level === 'ok')) return { level: 'ok', title: '' };
-
-  // Si la page Meta est reconnue mais que le HTML brut ne contient pas de statut exploitable,
-  // on évite un faux vert : mieux vaut afficher une erreur de lecture qu'un OK erroné.
   if (recognisesMetaStatus(html) && !/\b(?:disruptions?|outage|down|unavailable|degraded|resolved|no\s+known\s+issues)\b/i.test(`${text} ${rawSearchText(html)}`)) {
     return { level: 'error', title: 'État Meta Status non lisible dans le HTML récupéré' };
   }

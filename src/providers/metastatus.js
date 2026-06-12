@@ -19,9 +19,7 @@ function plainText(html) {
 }
 
 const STATUS_PATTERNS = [
-  // Important : "no known issues" contient le mot "issues".
-  // On reconnaît donc d'abord l'état OK avant les signaux d'incident.
-  { level: 'ok', pattern: /\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running)\b/i },
+  { level: 'ok', pattern: /\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running|resolved)\b/i },
   { level: 'major', pattern: /\b(?:high\s+disruptions?|major\s+disruptions?|major\s+outage|outage|down|unavailable)\b/i },
   { level: 'minor', pattern: /\b(?:medium\s+disruptions?|low\s+disruptions?|minor\s+disruptions?|some\s+disruptions?|degraded|partial\s+outage|issues?)\b/i }
 ];
@@ -29,14 +27,25 @@ const STATUS_PATTERNS = [
 const META_CATEGORIES = [
   'ads',
   'business tools',
+  'developer platform',
   'developer tools',
   'messaging',
   'business messaging',
-  'monetization'
+  'monetization',
+  'transparency tools'
 ];
 
 const META_PRODUCTS = [
   'Facebook Ads Manager',
+  'Messaging Ads',
+  'Catalog',
+  'Meta Audience Network',
+  'Instagram Boost',
+  'Facebook and Instagram Shops',
+  'Meta Horizon Device Manager',
+  'Meta Business Suite',
+  'Meta Admin Center',
+  'Messenger API for Instagram',
   'Messenger API',
   'Messenger Platform',
   'WhatsApp Business Platform',
@@ -47,6 +56,8 @@ const META_PRODUCTS = [
   'Instagram Basic Display API',
   'Instagram API',
   'Instagram Messaging',
+  'Ads Transparency',
+  'Data Transparency',
   'Pages API',
   'Webhooks',
   'Conversions API',
@@ -54,7 +65,6 @@ const META_PRODUCTS = [
   'Business Manager',
   'Commerce Manager',
   'Events Manager',
-  'Meta Business Suite',
   'Facebook Pages',
   'Facebook Platform',
   'Instagram',
@@ -72,7 +82,9 @@ const GENERIC_LINE_PATTERNS = [
   /^rss feed$/i,
   /^updated\b/i,
   /^all systems/i,
-  /^current status$/i
+  /^current status$/i,
+  /^illustration header$/i,
+  /^chevron$/i
 ];
 
 function normaliseLine(value) {
@@ -113,13 +125,18 @@ function isGenericLine(line) {
   return !value || GENERIC_LINE_PATTERNS.some((pattern) => pattern.test(value));
 }
 
+function isUiLine(line) {
+  const value = normaliseLine(line);
+  return isGenericLine(value) || /\bicon\b/i.test(value);
+}
+
 function statusForLine(line) {
   for (const status of STATUS_PATTERNS) {
     const match = String(line || '').match(status.pattern);
     if (match) {
       return {
         level: status.level,
-        phrase: status.level === 'ok' ? '' : normaliseStatusPhrase(match[0], status.level)
+        phrase: normaliseStatusPhrase(match[0], status.level)
       };
     }
   }
@@ -137,6 +154,8 @@ function normaliseStatusPhrase(value, level) {
     .replace(/\bmajor outage\b/i, 'Major outage')
     .replace(/\bpartial outage\b/i, 'Partial outage')
     .replace(/\bdegraded\b/i, 'Degraded')
+    .replace(/\bno known issues\b/i, 'No known issues')
+    .replace(/\bresolved\b/i, 'Resolved')
     .replace(/\bissues?\b/i, 'Issues')
     .replace(/\bdown\b/i, 'Down')
     .replace(/\bunavailable\b/i, 'Unavailable');
@@ -168,8 +187,8 @@ function titleFromLine(line) {
   let title = normaliseLine(line)
     .replace(/\b(?:high\s+disruptions?|major\s+disruptions?|major\s+outage|outage|down|unavailable)\b/ig, '')
     .replace(/\b(?:medium\s+disruptions?|low\s+disruptions?|minor\s+disruptions?|some\s+disruptions?|degraded|partial\s+outage|issues?)\b/ig, '')
-    .replace(/\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running)\b/ig, '')
-    .replace(/\b(?:status|updated|rss feed|view history|view event history)\b/ig, '')
+    .replace(/\b(?:the\s+service\s+is\s+up\s+and\s+running\s+with\s+no\s+known\s+issues|no\s+known\s+issues|up\s+and\s+running|resolved)\b/ig, '')
+    .replace(/\b(?:status|updated|rss feed|view history|view event history|icon)\b/ig, '')
     .replace(/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b\.?\s+\d{1,2}\s+\d{4}(?:\s+\d{1,2}:\d{2}\s*(?:am|pm)?)?/ig, '')
     .replace(/[#:—–-]+/g, ' ')
     .replace(/\s+/g, ' ')
@@ -177,15 +196,15 @@ function titleFromLine(line) {
 
   title = stripLeadingCategory(title);
 
-  if (isCategoryLine(title) || isGenericLine(title)) return '';
+  if (isCategoryLine(title) || isGenericLine(title) || isUiLine(title)) return '';
   if (title.length > 80) return title.slice(0, 77).trim() + '…';
   return title;
 }
 
 function previousProductTitle(lines, statusIndex) {
-  for (let index = statusIndex - 1; index >= Math.max(0, statusIndex - 8); index -= 1) {
+  for (let index = statusIndex - 1; index >= Math.max(0, statusIndex - 12); index -= 1) {
     const line = normaliseLine(lines[index]);
-    if (!line || statusForLine(line) || isCategoryLine(line) || isGenericLine(line)) continue;
+    if (!line || statusForLine(line) || isCategoryLine(line) || isGenericLine(line) || isUiLine(line)) continue;
 
     const title = titleFromLine(line);
     if (title) return title;
@@ -208,6 +227,63 @@ function severityScore(level) {
   return { major: 3, minor: 2, ok: 1 }[level] || 0;
 }
 
+function productFromIssueTitle(title) {
+  return normaliseLine(title).split(/\s+—\s+/)[0];
+}
+
+function phraseFromIssueTitle(title, fallback) {
+  return normaliseLine(title).split(/\s+—\s+/)[1] || fallback;
+}
+
+function summariseIssues(issues) {
+  const active = issues.filter((issue) => issue && issue.level !== 'ok');
+  if (!active.length) return null;
+
+  const sorted = active.sort((a, b) => severityScore(b.level) - severityScore(a.level));
+  const topLevel = sorted[0].level;
+  const topIssues = sorted.filter((issue) => issue.level === topLevel);
+
+  if (topIssues.length === 1) return topIssues[0];
+
+  const products = [...new Set(topIssues.map((issue) => productFromIssueTitle(issue.title)).filter(Boolean))];
+  const phrase = phraseFromIssueTitle(topIssues[0].title, topLevel === 'major' ? 'High disruptions' : 'Disruptions');
+  const visibleProducts = products.slice(0, 2).join(', ');
+  const suffix = products.length > 2 ? ` + ${products.length - 2} autres` : '';
+
+  return {
+    level: topLevel,
+    title: formatIssueTitle(`${visibleProducts}${suffix}`, phrase, topLevel)
+  };
+}
+
+function sequentialIssuesFromLines(lines) {
+  const issues = [];
+  let currentProduct = '';
+
+  for (const rawLine of lines) {
+    const line = normaliseLine(rawLine);
+    if (!line || isCategoryLine(line) || isGenericLine(line) || isUiLine(line)) continue;
+
+    const status = statusForLine(line);
+    if (status) {
+      const inlineTitle = titleFromLine(line);
+      const title = inlineTitle || currentProduct;
+
+      if (status.level !== 'ok' && title) {
+        issues.push({ level: status.level, title: formatIssueTitle(title, status.phrase, status.level) });
+      }
+
+      if (inlineTitle) currentProduct = inlineTitle;
+      continue;
+    }
+
+    const product = titleFromLine(line);
+    if (product) currentProduct = product;
+  }
+
+  return summariseIssues(issues);
+}
+
 function issueFromRawHtml(html) {
   const raw = rawSearchText(html);
   if (!raw) return null;
@@ -221,34 +297,46 @@ function issueFromRawHtml(html) {
     { level: 'minor', phrase: 'Low disruptions', pattern: /\blow\s+disruptions?\b/i },
     { level: 'minor', phrase: 'Some disruptions', pattern: /\bsome\s+disruptions?\b/i },
     { level: 'minor', phrase: 'Partial outage', pattern: /\bpartial\s+outage\b/i },
-    { level: 'minor', phrase: 'Degraded', pattern: /\bdegraded\b/i }
+    { level: 'minor', phrase: 'Degraded', pattern: /\bdegraded\b/i },
+    { level: 'ok', phrase: 'Resolved', pattern: /\bresolved\b/i },
+    { level: 'ok', phrase: 'No known issues', pattern: /\bno\s+known\s+issues\b/i }
   ];
 
-  const matches = [];
-
+  const productMatches = [];
   for (const product of products) {
     const productPattern = new RegExp(`\\b${escapeRegExp(product).replace(/\\ /g, '\\s+')}\\b`, 'ig');
     let productMatch;
     while ((productMatch = productPattern.exec(raw)) !== null) {
-      const start = Math.max(0, productMatch.index - 160);
-      const end = Math.min(raw.length, productMatch.index + productMatch[0].length + 260);
-      const windowText = raw.slice(start, end);
-
-      for (const status of statuses) {
-        if (status.pattern.test(windowText)) {
-          matches.push({
-            level: status.level,
-            title: formatIssueTitle(product, status.phrase, status.level)
-          });
-          break;
-        }
-      }
+      productMatches.push({ product, index: productMatch.index, end: productMatch.index + productMatch[0].length });
     }
   }
 
-  if (!matches.length) return null;
+  productMatches.sort((a, b) => a.index - b.index);
+  const issues = [];
 
-  return matches.sort((a, b) => severityScore(b.level) - severityScore(a.level))[0];
+  for (let index = 0; index < productMatches.length; index += 1) {
+    const productMatch = productMatches[index];
+    const nextProduct = productMatches.find((candidate) => candidate.index > productMatch.end);
+    const boundary = Math.min(raw.length, nextProduct ? nextProduct.index : productMatch.end + 180);
+    const windowText = raw.slice(productMatch.end, boundary);
+
+    const nearestStatus = statuses
+      .map((status) => {
+        const match = windowText.match(status.pattern);
+        return match ? { ...status, index: match.index } : null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.index - b.index)[0];
+
+    if (nearestStatus && nearestStatus.level !== 'ok') {
+      issues.push({
+        level: nearestStatus.level,
+        title: formatIssueTitle(productMatch.product, nearestStatus.phrase, nearestStatus.level)
+      });
+    }
+  }
+
+  return summariseIssues(issues);
 }
 
 export function recognisesMetaStatus(html) {
@@ -260,6 +348,9 @@ export function recognisesMetaStatus(html) {
 export function parseMetaStatus(html) {
   const lines = htmlToLines(html);
   const text = lines.join(' ');
+
+  const sequentialIssue = sequentialIssuesFromLines(lines);
+  if (sequentialIssue) return sequentialIssue;
 
   const rawIssue = issueFromRawHtml(html);
   if (rawIssue) return rawIssue;
@@ -287,7 +378,7 @@ export function parseMetaStatus(html) {
 
   // Si la page Meta est reconnue mais que le HTML brut ne contient pas de statut exploitable,
   // on évite un faux vert : mieux vaut afficher une erreur de lecture qu'un OK erroné.
-  if (recognisesMetaStatus(html) && !/\b(?:disruptions?|outage|down|unavailable|degraded|no\s+known\s+issues)\b/i.test(`${text} ${rawSearchText(html)}`)) {
+  if (recognisesMetaStatus(html) && !/\b(?:disruptions?|outage|down|unavailable|degraded|resolved|no\s+known\s+issues)\b/i.test(`${text} ${rawSearchText(html)}`)) {
     return { level: 'error', title: 'État Meta Status non lisible dans le HTML récupéré' };
   }
 

@@ -40,8 +40,8 @@
         </article>
       </section>
 
-      <section class="toolbar" aria-label="Filtres et actions">
-        <label class="search-wrap">
+      <section class="toolbar" aria-label="Filtres">
+        <label class="search">
           <span class="sr-only">Rechercher un service</span>
           <input id="searchInput" type="search" placeholder="Rechercher un service…">
         </label>
@@ -49,34 +49,34 @@
           <input id="issuesOnly" type="checkbox">
           <span>Afficher seulement les alertes</span>
         </label>
-        <button id="settingsBtn" class="button ghost" type="button">Réglages</button>
-        <button id="exportBtn" class="button ghost" type="button">Exporter</button>
-        <button id="importBtn" class="button ghost" type="button">Importer</button>
-        <input id="importFile" class="sr-only" type="file" accept="application/json">
+        <button id="settingsBtn" class="button secondary" type="button">Réglages</button>
       </section>
 
-      <section id="grid" class="grid" aria-live="polite"></section>
+      <section id="grid" class="status-grid" aria-live="polite"></section>
 
-      <section id="tableView" class="table-panel hidden" aria-live="polite">
+      <section id="tableView" class="table-wrap hidden" aria-live="polite">
         <table class="status-table">
           <thead>
             <tr>
               <th scope="col">Service</th>
               <th scope="col">Statut</th>
-              <th scope="col">Incident</th>
+              <th scope="col">Détail</th>
               <th scope="col">Dernière vérification</th>
-              <th scope="col"><span class="sr-only">Actions</span></th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
         </table>
       </section>
 
-      <p id="emptyState" class="empty hidden">Aucun service ne correspond à ce filtre.</p>
+      <section id="emptyState" class="empty hidden">
+        <h2>Aucun service à afficher</h2>
+        <p>Ajoute une page de statut ou désactive le filtre des alertes.</p>
+      </section>
     </main>
 
     <dialog id="serviceDialog" class="modal">
-      <form id="serviceForm" method="dialog" novalidate>
+      <form id="serviceForm" method="dialog">
         <div class="modal-head">
           <div>
             <p class="eyebrow">SERVICE</p>
@@ -86,15 +86,13 @@
         </div>
 
         <input id="serviceId" type="hidden">
-
         <label class="field">
           <span>Nom affiché</span>
-          <input id="serviceName" required placeholder="Ex. Make">
+          <input id="serviceName" type="text" required placeholder="Ex. Make">
         </label>
-
         <label class="field">
           <span>URL publique de la page de statut</span>
-          <div class="detect-row">
+          <div class="url-row">
             <input id="pageUrl" type="url" required placeholder="https://status.exemple.com/">
             <button id="detectBtn" class="button secondary" type="button">Détecter</button>
           </div>
@@ -187,34 +185,37 @@
 
         <div class="settings-section">
           <p class="settings-title">Affichage</p>
-
-          <div class="settings-grid">
-            <label class="field">
-              <span>Mode d’affichage</span>
-              <select id="viewMode">
-                <option value="cards">Cartes</option>
-                <option value="table">Tableau</option>
-              </select>
-            </label>
-
-            <label id="cardDensityField" class="field">
-              <span>Densité des cartes</span>
-              <select id="cardDensity">
-                <option value="comfortable">Confortable</option>
-                <option value="compact">Compacte</option>
-                <option value="dense">Très compacte</option>
-              </select>
-            </label>
-          </div>
-
+          <label class="field">
+            <span>Vue par défaut</span>
+            <select id="viewMode">
+              <option value="table">Tableau</option>
+              <option value="cards">Cartes</option>
+            </select>
+          </label>
+          <label id="cardDensityField" class="field">
+            <span>Densité des cartes</span>
+            <select id="cardDensity">
+              <option value="comfortable">Confort</option>
+              <option value="compact">Compact</option>
+              <option value="ultra">Ultra compact</option>
+            </select>
+          </label>
           <label class="field">
             <span>Tri</span>
             <select id="sortMode">
-              <option value="alphabetical">Alphabétique</option>
-              <option value="status">Incidents d’abord</option>
+              <option value="status">Alertes d’abord</option>
+              <option value="alpha">Alphabétique</option>
             </select>
           </label>
-          <p class="field-hint">Les erreurs de lecture apparaissent aussi avant les services opérationnels lorsque les incidents sont prioritaires.</p>
+        </div>
+
+        <div class="settings-section">
+          <p class="settings-title">Sauvegarde</p>
+          <div class="settings-actions inline">
+            <button id="exportBtn" class="button secondary" type="button">Exporter la configuration</button>
+            <button id="importBtn" class="button secondary" type="button">Importer une configuration</button>
+            <input id="importFile" type="file" accept="application/json" hidden>
+          </div>
         </div>
 
         <div class="settings-actions">
@@ -251,6 +252,6 @@
       </article>
     </template>
 
-    <script type="module" src="js/dashboard.js"></script>
+    <script type="module" src="js/dashboard.js?v=meta-json-20260612-2"></script>
   </body>
 </html>

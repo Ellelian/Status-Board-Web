@@ -173,11 +173,37 @@ assert.deepEqual(
 );
 assert.deepEqual(
   parseMetaStatus('<h1>Facebook Ads Manager Status</h1><div>Facebook Ads Manager High disruptions</div>'),
-  { level: 'major', title: 'Facebook Ads Manager' }
+  { level: 'major', title: 'Facebook Ads Manager — High disruptions' }
+);
+assert.deepEqual(
+  parseMetaStatus(`
+    <title>Status and outages of Meta business products</title>
+    <h2>Ads</h2>
+    <div>Facebook Ads Manager</div>
+    <div>High disruptions</div>
+  `),
+  { level: 'major', title: 'Facebook Ads Manager — High disruptions' }
+);
+assert.deepEqual(
+  parseMetaStatus(`
+    <title>Status and outages of Meta business products</title>
+    <div>Ads Facebook Ads Manager High disruptions</div>
+  `),
+  { level: 'major', title: 'Facebook Ads Manager — High disruptions' }
 );
 assert.deepEqual(
   parseMetaStatus('<h1>WhatsApp Business Platform Status</h1><div>Media Messages API Medium disruptions</div>'),
-  { level: 'minor', title: 'Media Messages API' }
+  { level: 'minor', title: 'Media Messages API — Medium disruptions' }
+);
+assert.deepEqual(
+  parseMetaStatus(`
+    <title>Status and outages of Meta business products</title>
+    <div>Facebook Login No known issues</div>
+    <h2>Ads</h2>
+    <div>Facebook Ads Manager</div>
+    <div>High disruptions</div>
+  `),
+  { level: 'major', title: 'Facebook Ads Manager — High disruptions' }
 );
 assert.equal(parseGoogle([{ end: '2026-05-20T10:00:00Z', most_recent_update: { status: 'AVAILABLE' } }]).level, 'ok');
 assert.equal(parseGoogle([{ service_name: 'Gmail', severity: 'medium', most_recent_update: { status: 'SERVICE_DISRUPTION' } }]).level, 'minor');

@@ -25,6 +25,16 @@ export const PROVIDER_NAMES = {
   'statusio-html': 'Status.io'
 };
 
+function metaStatusEndpoint(input) {
+  try {
+    const parsed = new URL(String(input || ''));
+    if (parsed.hostname === 'metastatus.com') return 'https://metastatus.com/data/orgs.json';
+  } catch {
+    // On utilise l'endpoint public connu ci-dessous.
+  }
+  return 'https://metastatus.com/data/orgs.json';
+}
+
 export async function checkService(service) {
   const checkedAt = new Date().toISOString();
   if (!service.enabled) {
@@ -50,8 +60,8 @@ export async function checkService(service) {
         break;
       }
       case 'metastatus': {
-        const { text } = await fetchText(service.endpoint);
-        parsed = parseMetaStatus(text);
+        const { data } = await fetchJson(metaStatusEndpoint(service.endpoint));
+        parsed = parseMetaStatus(data);
         break;
       }
       case 'pulsetic': {

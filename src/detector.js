@@ -52,11 +52,20 @@ export async function detectStatusPage(inputUrl) {
     const origins = unique([entered.origin, canonical.origin]);
     const hosts = unique([entered.hostname, canonical.hostname]);
 
-    if (hosts.includes('metastatus.com') && html && recognisesMetaStatus(html)) return found(
-      { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'metastatus', method: 'GET' },
-      parseMetaStatus(html),
-      'Meta Status — lecture HTML'
-    );
+    if (hosts.includes('metastatus.com')) {
+      const endpoint = 'https://metastatus.com/data/orgs.json';
+      try {
+        const { data, finalUrl } = await fetchJson(endpoint);
+        if (recognisesMetaStatus(data)) return found(
+          { pageUrl: canonicalPageUrl, endpoint: finalUrl || endpoint, provider: 'metastatus', method: 'GET' },
+          parseMetaStatus(data),
+          'Meta Status JSON'
+        );
+        attempts.push(`${endpoint} : JSON Meta non reconnu`);
+      } catch (error) {
+        attempts.push(`${endpoint} : ${safeMessage(error)}`);
+      }
+    }
 
     /* Google expose un flux JSON historique : un incident est actif seulement sans date de fin. */
     if (hosts.includes('status.cloud.google.com')) {

@@ -5,6 +5,7 @@ import {
   parseInstatus,
   parseIncidentIo,
   parseGoogle,
+  parseMetaStatus,
   parsePulsetic,
   parseSimpleHtml,
   parseSorryApp,
@@ -16,6 +17,7 @@ export const PROVIDER_NAMES = {
   betterstack: 'Better Stack',
   instatus: 'Instatus',
   incidentio: 'Incident.io',
+  metastatus: 'Meta Status',
   pulsetic: 'Pulsetic',
   'simple-html': 'HTML simple',
   google: 'Google Status',
@@ -45,6 +47,11 @@ export async function checkService(service) {
       case 'simple-html': {
         const { text } = await fetchText(service.endpoint);
         parsed = parseSimpleHtml(text);
+        break;
+      }
+      case 'metastatus': {
+        const { text } = await fetchText(service.endpoint);
+        parsed = parseMetaStatus(text);
         break;
       }
       case 'pulsetic': {

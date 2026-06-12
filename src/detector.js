@@ -5,6 +5,7 @@ import {
   recognisesInstatus,
   recognisesIncidentIo,
   recognisesGoogle,
+  recognisesMetaStatus,
   recognisesPulsetic,
   recognisesSimpleHtml,
   recognisesSorryApp,
@@ -14,6 +15,7 @@ import {
   parseInstatus,
   parseIncidentIo,
   parseGoogle,
+  parseMetaStatus,
   parsePulsetic,
   parseSimpleHtml,
   parseSorryApp,
@@ -49,6 +51,12 @@ export async function detectStatusPage(inputUrl) {
     const canonical = new URL(canonicalPageUrl);
     const origins = unique([entered.origin, canonical.origin]);
     const hosts = unique([entered.hostname, canonical.hostname]);
+
+    if (hosts.includes('metastatus.com') && html && recognisesMetaStatus(html)) return found(
+      { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'metastatus', method: 'GET' },
+      parseMetaStatus(html),
+      'Meta Status — lecture HTML'
+    );
 
     /* Google expose un flux JSON historique : un incident est actif seulement sans date de fin. */
     if (hosts.includes('status.cloud.google.com')) {
@@ -135,6 +143,11 @@ export async function detectStatusPage(inputUrl) {
       { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'statusio-html', method: 'GET' },
       parseStatusIo(html),
       'Status.io — lecture HTML'
+    );
+    if (html && recognisesMetaStatus(html)) return found(
+      { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'metastatus', method: 'GET' },
+      parseMetaStatus(html),
+      'Meta Status — lecture HTML'
     );
     if (html && recognisesSimpleHtml(html)) return found(
       { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'simple-html', method: 'GET' },

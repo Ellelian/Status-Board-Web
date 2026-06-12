@@ -3,6 +3,7 @@
  * Les URL sont indépendantes de la page GitHub d'origine : l'extension les interroge directement.
  */
 export const DEFAULT_SERVICES = [
+  { name: 'Meta Status', pageUrl: 'https://metastatus.com', endpoint: 'https://metastatus.com', provider: 'metastatus', method: 'GET' },
   { name: 'ActiveCampaign', pageUrl: 'https://status.activecampaign.com', endpoint: 'https://status.activecampaign.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'Anthropic / Claude', pageUrl: 'https://status.claude.com', endpoint: 'https://status.claude.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'Calendly', pageUrl: 'https://www.calendlystatus.com', endpoint: 'https://www.calendlystatus.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },

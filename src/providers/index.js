@@ -9,3 +9,5 @@ export { parseStatusIo, recognisesStatusIo } from './statusio.js';
 export { parseBetterStack, recognisesBetterStack } from './betterstack.js';
 
 export { parseSimpleHtml, recognisesSimpleHtml } from './simplehtml.js';
+
+export { parseMetaStatus, recognisesMetaStatus } from './metastatus.js';

@@ -57,6 +57,7 @@ const PROVIDER_OPTIONS = {
   betterstack: 'Better Stack',
   instatus: 'Instatus',
   incidentio: 'Incident.io',
+  metastatus: 'Meta Status',
   pulsetic: 'Pulsetic',
   google: 'Google Status',
   sorryapp: 'SorryApp',

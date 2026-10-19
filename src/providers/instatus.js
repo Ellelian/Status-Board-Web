@@ -26,9 +26,11 @@ export function parseInstatus(data) {
   }
 
   const rawStatus = data?.status?.indicator || data?.page?.status || data?.status || 'operational';
-  const level = mapImpact(rawStatus);
+  const level = mapImpact(rawStatus, 'error');
   return {
     level,
-    title: level === 'ok' ? '' : (data?.status?.description || normalize(rawStatus))
+    title: level === 'ok' ? '' : (level === 'error'
+      ? 'État Instatus non reconnu'
+      : (data?.status?.description || normalize(rawStatus)))
   };
 }

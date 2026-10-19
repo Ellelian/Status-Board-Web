@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/providers.test.mjs && node tests/detector.test.mjs"
+    "test": "node tests/providers.test.mjs && node tests/detector.test.mjs && node tests/snapshot.test.mjs"
   }
 }

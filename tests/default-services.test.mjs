@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { DEFAULT_SERVICES, PUBLIC_STATUS_PAGES } from '../src/defaults.js';
 import { initialiseStorage, getServices } from '../src/storage.js';
+import { checkService } from '../src/status-engine.js';
 
 const oldLocalStorage = globalThis.localStorage;
 const memory = new Map();
@@ -26,6 +27,31 @@ try {
     { pageUrl: cloudflareDefaults[0].pageUrl, endpoint: cloudflareDefaults[0].endpoint },
     PUBLIC_STATUS_PAGES.cloudflare
   );
+  // Les deux URL directes utilisent bien le parser existant, sans le proxy.
+  const nativeFetch = globalThis.fetch;
+  try {
+    const requested = [];
+    globalThis.fetch = async url => {
+      requested.push(String(url));
+      assert.ok(
+        [PUBLIC_STATUS_PAGES.calendly.endpoint, PUBLIC_STATUS_PAGES.cloudflare.endpoint].includes(String(url)),
+        'Only the canonical direct status endpoint should be requested'
+      );
+      return new Response(JSON.stringify({
+        status: { indicator: 'none' }, components: [], incidents: []
+      }), { status: 200 });
+    };
+    for (const service of [calendlyDefault, cloudflareDefaults[0]]) {
+      const status = await checkService({ ...service, id: service.name, enabled: true });
+      assert.equal(status.level, 'ok');
+    }
+    assert.deepEqual(requested, [
+      PUBLIC_STATUS_PAGES.calendly.endpoint, PUBLIC_STATUS_PAGES.cloudflare.endpoint
+    ]);
+  } finally {
+    globalThis.fetch = nativeFetch;
+  }
+
   assert.equal(calendlyDefault.provider, 'atlassian');
   assert.equal(cloudflareDefaults[0].provider, 'atlassian');
   await initialiseStorage();

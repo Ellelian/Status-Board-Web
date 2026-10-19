@@ -1,4 +1,5 @@
 import { fetchJson, fetchText, safeMessage } from './utils.js';
+import { readStatusSnapshot } from './status-snapshot.js';
 import {
   parseAtlassian,
   parseBetterStack,
@@ -127,6 +128,17 @@ export async function checkService(service) {
         throw new Error(`Type de page non pris en charge : ${service.provider || 'vide'}`);
     }
 
+    // If a provider's HTML parser also fails, a fresh server snapshot is safer
+    // than inferring healthy from an unknown document.
+    if (parsed?.level === 'error') {
+      try {
+        const snapshot = await readStatusSnapshot(service);
+        if (snapshot) return { serviceId: service.id, ...snapshot };
+      } catch (error) {
+        console.info('[status] Snapshot unavailable:', safeMessage(error));
+      }
+    }
+
     return {
       serviceId: service.id,
       level: parsed.level,
@@ -134,6 +146,14 @@ export async function checkService(service) {
       checkedAt
     };
   } catch (error) {
+    // Browser CORS and upstream WAF HTTP 403 can affect otherwise healthy services.
+    // The bounded, server-collected snapshot only applies to explicitly supported hosts.
+    try {
+      const snapshot = await readStatusSnapshot(service);
+      if (snapshot) return { serviceId: service.id, ...snapshot };
+    } catch (fallbackError) {
+      console.info('[status] Snapshot unavailable:', safeMessage(fallbackError));
+    }
     console.error(`[status] ${service.name}`, error);
     return {
       serviceId: service.id,

@@ -2,8 +2,9 @@ name: Refresh public status fallback
 
 on:
   schedule:
-    # Offset from the top of the hour to reduce scheduler contention.
-    - cron: '3-59/5 * * * *'
+    # Ordinary five-minute schedule, recommitted on the default branch to resynchronise
+    # GitHub's schedule trigger. No collection runs in the user's browser.
+    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
   workflow_dispatch:
   push:
     branches: [main]

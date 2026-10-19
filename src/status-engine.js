@@ -9,6 +9,8 @@ import {
   parsePulsetic,
   parseSimpleHtml,
   parseSorryApp,
+  parseSorryAppJson,
+  recognisesSorryAppJson,
   parseStatusIo
 } from './providers/index.js';
 
@@ -45,8 +47,35 @@ export async function checkService(service) {
     let parsed;
     switch (service.provider) {
       case 'sorryapp': {
-        const { text } = await fetchText(service.endpoint);
-        parsed = parseSorryApp(text);
+        // Prefer SorryApp's structured Status API. Existing HTML pages remain a fallback.
+        const sourceUrl = service.endpoint || service.pageUrl;
+        const origin = new URL(sourceUrl).origin;
+        const statusUrl = `${origin}/api/v1/status`;
+        try {
+          const { data } = await fetchJson(statusUrl);
+          if (recognisesSorryAppJson(data)) {
+            let notices = null;
+            if (data.page.state !== 'operational') {
+              try {
+                const result = await fetchJson(`${origin}/api/v1/notices?filter%5Btimeline_state_eq%5D=present`);
+                notices = result.data;
+              } catch (error) {
+                // The overview alone is authoritative; losing details must not mask an incident.
+                console.info('[sorryapp] Notice details unavailable:', safeMessage(error));
+              }
+            }
+            parsed = parseSorryAppJson(data, notices);
+          }
+        } catch (error) {
+          console.info('[sorryapp] Status API unavailable, trying existing HTML parser:', safeMessage(error));
+        }
+        if (!parsed) {
+          const fallbackUrl = /\\/api\\/v1\\//.test(new URL(sourceUrl).pathname)
+            ? (service.pageUrl || origin)
+            : sourceUrl;
+          const { text } = await fetchText(fallbackUrl);
+          parsed = parseSorryApp(text);
+        }
         break;
       }
       case 'statusio-html': {

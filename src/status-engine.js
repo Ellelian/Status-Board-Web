@@ -70,7 +70,7 @@ export async function checkService(service) {
           console.info('[sorryapp] Status API unavailable, trying existing HTML parser:', safeMessage(error));
         }
         if (!parsed) {
-          const fallbackUrl = /\\/api\\/v1\\//.test(new URL(sourceUrl).pathname)
+          const fallbackUrl = new URL(sourceUrl).pathname.includes('/api/v1/')
             ? (service.pageUrl || origin)
             : sourceUrl;
           const { text } = await fetchText(fallbackUrl);

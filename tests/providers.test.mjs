@@ -6,7 +6,7 @@ import { parseBetterStack } from '../src/providers/betterstack.js';
 import { parseGoogle } from '../src/providers/google.js';
 import { parseIncidentIo } from '../src/providers/incidentio.js';
 import { parsePulsetic } from '../src/providers/pulsetic.js';
-import { parseSorryApp } from '../src/providers/sorryapp.js';
+import { parseSorryApp, parseSorryAppJson, recognisesSorryAppJson } from '../src/providers/sorryapp.js';
 import { parseStatusIo } from '../src/providers/statusio.js';
 
 assert.deepEqual(
@@ -211,5 +211,27 @@ assert.equal(parseIncidentIo({ summary: { ongoing_incidents: [], affected_compon
 assert.equal(parsePulsetic({ data: { monitors: [], incidents: [{ status: 'identified', title: 'Incident actif' }] } }).level, 'minor');
 assert.equal(parseSorryApp('<h2>All systems are go</h2>').level, 'ok');
 assert.equal(parseStatusIo('<div>All services operating normally</div><div>0 Active Incidents</div>').level, 'ok');
+
+
+assert.equal(recognisesSorryAppJson({ page: { state: 'operational' } }), true);
+assert.equal(recognisesSorryAppJson({ page: { state: 'something_else' } }), false);
+assert.deepEqual(parseSorryAppJson({ page: { state: 'operational' } }), { level: 'ok', title: '' });
+assert.deepEqual(parseSorryAppJson({ page: { state: 'degraded' } }), { level: 'minor', title: 'Incident en cours' });
+assert.deepEqual(parseSorryAppJson({ page: { state: 'under_maintenance' } }), { level: 'maintenance', title: 'Maintenance en cours' });
+assert.deepEqual(parseSorryAppJson({ page: { state: 'unknown' } }), { level: 'error', title: 'État SorryApp JSON non reconnu' });
+assert.deepEqual(parseSorryAppJson({ page: { state: 'degraded' } }, {
+  notices: [
+    { type: 'unplanned', state: 'resolved', timeline_state: 'past_recent', subject: 'Past outage' },
+    { type: 'unplanned', state: 'recovering', timeline_state: 'present', subject: 'Recovering outage' },
+    { type: 'planned', state: 'scheduled', timeline_state: 'future', subject: 'Future maintenance' },
+    { type: 'unplanned', state: 'identified', timeline_state: 'present', ended_at: null, subject: 'Web App Issue' }
+  ]
+}), { level: 'minor', title: 'Web App Issue' });
+assert.deepEqual(parseSorryAppJson({ page: { state: 'under_maintenance' } }, {
+  notices: [
+    { type: 'planned', state: 'scheduled', timeline_state: 'future', subject: 'Future maintenance' },
+    { type: 'planned', state: 'underway', timeline_state: 'present', subject: 'Current maintenance' }
+  ]
+}), { level: 'maintenance', title: 'Current maintenance' });
 
 console.log('Tests parsers : OK');

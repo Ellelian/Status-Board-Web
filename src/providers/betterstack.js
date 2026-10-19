@@ -8,7 +8,7 @@ function mapBetterStackState(value) {
   if (['degraded', 'partial_outage', 'partial', 'warning'].includes(state)) return 'minor';
   if (['maintenance', 'under_maintenance'].includes(state)) return 'maintenance';
   if (['operational', 'up', 'ok', 'none'].includes(state)) return 'ok';
-  return mapImpact(state);
+  return mapImpact(state, 'error');
 }
 
 function isOngoingReport(report, now = Date.now()) {
@@ -73,7 +73,7 @@ export function parseBetterStack(data) {
         title: attrs.title || affectedWorst?.title || ''
       };
     })
-    .filter((report) => report.level !== 'ok')
+    .filter((report) => report.level !== 'ok' && report.level !== 'error')
     .sort((a, b) => (LEVEL_SCORE[b.level] || 0) - (LEVEL_SCORE[a.level] || 0))[0];
 
   if (activeReport) {
@@ -88,7 +88,7 @@ export function parseBetterStack(data) {
       resource,
       level: mapBetterStackState(resource.attributes?.status || 'operational')
     }))
-    .filter(({ level }) => level !== 'ok')
+    .filter(({ level }) => level !== 'ok' && level !== 'error')
     .sort((a, b) => (LEVEL_SCORE[b.level] || 0) - (LEVEL_SCORE[a.level] || 0))[0];
 
   if (problematicResource) {
@@ -96,6 +96,10 @@ export function parseBetterStack(data) {
       level: problematicResource.level,
       title: problematicResource.resource.attributes?.public_name || ''
     };
+  }
+
+  if (pageState === 'error') {
+    return { level: 'error', title: 'État Better Stack non reconnu' };
   }
 
   if (pageState !== 'ok') {

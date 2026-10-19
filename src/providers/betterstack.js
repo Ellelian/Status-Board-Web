@@ -109,5 +109,12 @@ export function parseBetterStack(data) {
     };
   }
 
+  const unknownResource = resources.some(
+    (resource) => mapBetterStackState(resource.attributes?.status) === 'error'
+  );
+  if (unknownResource) {
+    return { level: 'error', title: 'État d’une ressource Better Stack non reconnu' };
+  }
+
   return { level: 'ok', title: '' };
 }

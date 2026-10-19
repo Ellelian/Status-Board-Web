@@ -36,7 +36,7 @@ function activeMaintenanceStatus(maintenance) {
 }
 
 export function parseAtlassian(data) {
-  const pageLevel = mapImpact(data?.status?.indicator || 'none');
+  const pageLevel = mapImpact(data?.status?.indicator || 'none', 'error');
 
   const activeIncident = Array.isArray(data?.incidents)
     ? data.incidents
@@ -65,8 +65,8 @@ export function parseAtlassian(data) {
 
   const problematic = Array.isArray(data?.components)
     ? data.components
-        .map((component) => ({ component, level: mapImpact(component.status) }))
-        .filter(({ component, level }) => normalize(component.status) !== 'operational' && level !== 'ok')
+        .map((component) => ({ component, level: mapImpact(component.status, 'error') }))
+        .filter(({ component, level }) => normalize(component.status) !== 'operational' && level !== 'ok' && level !== 'error')
         .sort((a, b) => {
           const severityDifference = (LEVEL_SCORE[b.level] || 0) - (LEVEL_SCORE[a.level] || 0);
           if (severityDifference !== 0) return severityDifference;
@@ -76,6 +76,11 @@ export function parseAtlassian(data) {
           return Number(Boolean(a.component.group)) - Number(Boolean(b.component.group));
         })[0]
     : null;
+
+  if (pageLevel === 'error') {
+    if (problematic) return { level: problematic.level, title: problematic.component.name };
+    return { level: 'error', title: 'État Statuspage non reconnu' };
+  }
 
   if (pageLevel !== 'ok') {
     return {

@@ -102,7 +102,7 @@ async function publish(snapshot) {
   // Keep the previous successful per-service value only with its original checkedAt.
   if (metadata?.content) {
     try {
-      const prior = JSON.parse(Buffer.from(metadata.content.replace(/\\s/g, ''), 'base64').toString('utf8'));
+      const prior = JSON.parse(Buffer.from(metadata.content.replace(/\s/g, ''), 'base64').toString('utf8'));
       for (const [host, result] of Object.entries(prior.services || {})) {
         if (!snapshot.services[host] && result?.checkedAt) snapshot.services[host] = result;
       }

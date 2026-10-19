@@ -93,5 +93,12 @@ export function parseAtlassian(data) {
     return { level: problematic.level, title: problematic.component.name };
   }
 
+  const unknownComponent = Array.isArray(data?.components) && data.components.some(
+    (component) => mapImpact(component?.status, 'error') === 'error'
+  );
+  if (unknownComponent) {
+    return { level: 'error', title: 'État d’un composant Statuspage non reconnu' };
+  }
+
   return { level: 'ok', title: '' };
 }

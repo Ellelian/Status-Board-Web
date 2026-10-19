@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-19T15:21:27.510Z",
+  "generatedAt": "2026-10-19T16:58:04.423Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-19T15:21:27.510Z"
-    },
-    "www.calendlystatus.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-10-19T15:21:27.510Z"
+      "checkedAt": "2026-10-19T16:58:04.423Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
       "title": "Incorrect geo location for some Cloudflare WARP users",
-      "checkedAt": "2026-10-19T15:21:27.510Z"
+      "checkedAt": "2026-10-19T16:58:04.423Z"
+    },
+    "www.calendlystatus.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-10-19T16:58:04.423Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-19T15:21:27.510Z"
+      "checkedAt": "2026-10-19T16:58:04.423Z"
     }
   }
 }

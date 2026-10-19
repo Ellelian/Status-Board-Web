@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { detectStatusPage } from '../src/detector.js';
+import { checkService } from '../src/status-engine.js';
 
 const nativeFetch = globalThis.fetch;
 function response(body, { status = 200, url = '' } = {}) {
@@ -102,6 +103,50 @@ withRoutes({
 detected = await detectStatusPage('https://status.shadow.tech/');
 assert.equal(detected.config.provider, 'statusio-html');
 assert.equal(detected.sample.level, 'ok');
+
+
+withRoutes({
+  'GET https://status.pipedrive.com/': () => response('<html><p>Powered by Sorry</p></html>', { url: 'https://status.pipedrive.com/' }),
+  'GET https://status.pipedrive.com/api/v1/status': () => response({ page: { state: 'degraded', name: 'Pipedrive Status' } }),
+  'GET https://status.pipedrive.com/api/v1/notices?filter%5Btimeline_state_eq%5D=present': () => response({
+    notices: [
+      { type: 'unplanned', state: 'identified', timeline_state: 'present', subject: 'Web App Issue' },
+      { type: 'unplanned', state: 'resolved', timeline_state: 'past_recent', subject: 'Yesterday Issue' }
+    ]
+  })
+});
+detected = await detectStatusPage('https://status.pipedrive.com/');
+assert.equal(detected.config.provider, 'sorryapp');
+assert.equal(detected.config.endpoint, 'https://status.pipedrive.com/api/v1/status');
+assert.deepEqual(detected.sample, { level: 'minor', title: 'Web App Issue' });
+const pipedrive = {
+  id: 'pipedrive', name: 'Pipedrive', pageUrl: 'https://status.pipedrive.com/',
+  endpoint: 'https://status.pipedrive.com/', provider: 'sorryapp', enabled: true
+};
+let checked = await checkService(pipedrive);
+assert.equal(checked.level, 'minor');
+assert.equal(checked.title, 'Web App Issue');
+
+withRoutes({
+  'GET https://status.pipedrive.com/api/v1/status': () => response({ page: { state: 'operational' } })
+});
+checked = await checkService(pipedrive);
+assert.equal(checked.level, 'ok');
+
+withRoutes({
+  'GET https://status.pipedrive.com/api/v1/status': () => response({ page: { state: 'degraded' } }),
+  'GET https://status.pipedrive.com/api/v1/notices?filter%5Btimeline_state_eq%5D=present': () => response('unavailable', {status: 500})
+});
+checked = await checkService(pipedrive);
+assert.equal(checked.level, 'minor');
+assert.equal(checked.title, 'Incident en cours');
+
+withRoutes({
+  'GET https://status.pipedrive.com/api/v1/status': () => response('unavailable', { status: 500 }),
+  'GET https://status.pipedrive.com/': () => response('<html><h2>All systems are go</h2><p>Powered by Sorry</p></html>')
+});
+checked = await checkService(pipedrive);
+assert.equal(checked.level, 'ok');
 
 globalThis.fetch = nativeFetch;
 console.log('Tests auto-détection : OK');

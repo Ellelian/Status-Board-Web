@@ -1,3 +1,14 @@
+export const PUBLIC_STATUS_PAGES = Object.freeze({
+  calendly: Object.freeze({
+    pageUrl: 'https://calendlystatus.com',
+    endpoint: 'https://calendlystatus.com/api/v2/summary.json'
+  }),
+  cloudflare: Object.freeze({
+    pageUrl: 'https://www.cloudflarestatus.com',
+    endpoint: 'https://www.cloudflarestatus.com/api/v2/summary.json'
+  })
+});
+
 /**
  * Services proposés au premier lancement.
  * Les URL sont indépendantes de la page GitHub d'origine : l'extension les interroge directement.
@@ -6,10 +17,11 @@ export const DEFAULT_SERVICES = [
   { name: 'Meta Status', pageUrl: 'https://metastatus.com', endpoint: 'https://metastatus.com', provider: 'metastatus', method: 'GET' },
   { name: 'ActiveCampaign', pageUrl: 'https://status.activecampaign.com', endpoint: 'https://status.activecampaign.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'Anthropic / Claude', pageUrl: 'https://status.claude.com', endpoint: 'https://status.claude.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
-  { name: 'Calendly', pageUrl: 'https://www.calendlystatus.com', endpoint: 'https://www.calendlystatus.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
+  { name: 'Calendly', ...PUBLIC_STATUS_PAGES.calendly, provider: 'atlassian', method: 'GET' },
   { name: 'Circle', pageUrl: 'https://status.circle.so', endpoint: 'https://status.circle.so/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'ClickFunnels', pageUrl: 'https://status.clickfunnels.com', endpoint: 'https://status.clickfunnels.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
   { name: 'ClickSend', pageUrl: 'https://status.clicksend.com', endpoint: 'https://status.clicksend.com/api/v2/summary.json', provider: 'atlassian', method: 'GET' },
+  { name: 'Cloudflare', ...PUBLIC_STATUS_PAGES.cloudflare, provider: 'atlassian', method: 'GET' },
   { name: 'Google Cloud', pageUrl: 'https://status.cloud.google.com', endpoint: 'https://status.cloud.google.com/incidents.json', provider: 'google', method: 'GET' },
   { name: 'Google Workspace', pageUrl: 'https://www.google.com/appsstatus/dashboard', endpoint: 'https://www.google.com/appsstatus/dashboard/incidents.json', provider: 'google', method: 'GET' },
   { name: 'GoHighLevel', pageUrl: 'https://status.gohighlevel.com', endpoint: 'https://status.gohighlevel.com/index.json', provider: 'betterstack', method: 'GET' },

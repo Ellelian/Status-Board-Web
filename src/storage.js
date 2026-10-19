@@ -1,4 +1,4 @@
-import { DEFAULT_SETTINGS, instantiateDefaultServices } from './defaults.js';
+import { DEFAULT_SETTINGS, PUBLIC_STATUS_PAGES, instantiateDefaultServices } from './defaults.js';
 
 const STORAGE_KEY = 'statusBoard.web.data';
 
@@ -14,6 +14,12 @@ function writeStore(store) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
 
+// Ne corriger que les anciennes URL exactes : aucune personnalisation externe n'est écrasée.
+const STATUS_URL_MIGRATIONS = [
+  { oldOrigin: 'https://www.calendlystatus.com', current: PUBLIC_STATUS_PAGES.calendly },
+  { oldOrigin: 'https://new.cloudflarestatus.com', current: PUBLIC_STATUS_PAGES.cloudflare }
+];
+
 function migrateKnownServices(store) {
   if (!Array.isArray(store.services)) return false;
 
@@ -25,15 +31,36 @@ function migrateKnownServices(store) {
       /status\.gohighlevel\.com/i.test(pageUrl)
       || /api\.pulsetic\.com\/public\/status\/status\.gohighlevel\.com/i.test(endpoint);
 
-    if (!looksLikeGoHighLevel || service.provider === 'betterstack') return service;
+    if (looksLikeGoHighLevel && service.provider !== 'betterstack') {
+      changed = true;
+      return {
+        ...service,
+        pageUrl: 'https://status.gohighlevel.com',
+        endpoint: 'https://status.gohighlevel.com/index.json',
+        provider: 'betterstack',
+        method: 'GET',
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    // Les pages Statuspage sont identifiées par leurs anciennes URL, même si
+    // l'utilisateur a renommé le service. Les autres champs restent inchangés.
+    if (service.provider !== 'atlassian') return service;
+    let nextPageUrl = pageUrl;
+    let nextEndpoint = endpoint;
+    for (const { oldOrigin, current } of STATUS_URL_MIGRATIONS) {
+      if (pageUrl.replace(/\/$/, '') === oldOrigin) nextPageUrl = current.pageUrl;
+      if (endpoint.replace(/\/$/, '') === `${oldOrigin}/api/v2/summary.json`) {
+        nextEndpoint = current.endpoint;
+      }
+    }
+    if (nextPageUrl === pageUrl && nextEndpoint === endpoint) return service;
 
     changed = true;
     return {
       ...service,
-      pageUrl: 'https://status.gohighlevel.com',
-      endpoint: 'https://status.gohighlevel.com/index.json',
-      provider: 'betterstack',
-      method: 'GET',
+      pageUrl: nextPageUrl,
+      endpoint: nextEndpoint,
       updatedAt: new Date().toISOString()
     };
   });
@@ -49,7 +76,8 @@ export async function initialiseStorage({ forceDefaults = false } = {}) {
     store.statuses = {};
     store.lastRefreshAt = null;
   }
-  migrateKnownServices(store);
+  // Lancer une nouvelle vérification dès l'ouverture après correction des URL.
+  if (migrateKnownServices(store)) store.lastRefreshAt = null;
   writeStore(store);
 }
 

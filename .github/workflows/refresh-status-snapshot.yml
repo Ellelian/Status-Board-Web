@@ -1,0 +1,42 @@
+name: Refresh public status fallback
+
+on:
+  schedule:
+    # Offset from the top of the hour to reduce scheduler contention.
+    - cron: '3-59/5 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/collect-status-snapshot.mjs'
+      - 'src/providers/**'
+      - '.github/workflows/refresh-status-snapshot.yml'
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-status-snapshot
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probe public status endpoints
+        if: github.event_name == 'pull_request'
+        run: node scripts/collect-status-snapshot.mjs
+      - name: Collect and publish status snapshot
+        if: github.event_name != 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/collect-status-snapshot.mjs --publish

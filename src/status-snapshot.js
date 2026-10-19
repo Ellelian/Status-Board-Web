@@ -2,6 +2,8 @@
  * Read-only server-collected fallback for public providers that reject browser requests.
  * Never use a stale or malformed snapshot as a green status.
  */
+import { REQUEST_TIMEOUT_MS } from './utils.js';
+
 export const STATUS_SNAPSHOT_URL =
   'https://raw.githubusercontent.com/Ellelian/Status-Board-Web/status-cache/status-snapshot.json';
 
@@ -26,7 +28,8 @@ export async function readStatusSnapshot(service, fetcher = fetch, now = Date.no
 
   const response = await fetcher(`${STATUS_SNAPSHOT_URL}?ts=${now}`, {
     cache: 'no-store',
-    headers: { Accept: 'application/json' }
+    headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
   });
   if (!response.ok) return null;
 

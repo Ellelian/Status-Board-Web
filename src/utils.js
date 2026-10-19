@@ -43,13 +43,13 @@ export function statusScore(level) {
   return STATUS_META[level]?.score ?? -1;
 }
 
-export function mapImpact(value) {
+export function mapImpact(value, unknownLevel = 'minor') {
   const impact = normalize(value);
   if (['critical', 'major', 'major_outage', 'majoroutage', 'major_system_outage'].includes(impact)) return 'major';
   if (['maintenance', 'under_maintenance', 'scheduled'].includes(impact)) return 'maintenance';
   if (['minor', 'partial', 'partial_outage', 'partial_system_outage', 'degraded_performance', 'degraded', 'warning'].includes(impact)) return 'minor';
   if (['none', 'ok', 'operational', 'up', 'available', 'resolved', 'completed'].includes(impact)) return 'ok';
-  return 'minor';
+  return unknownLevel;
 }
 
 export function isClosed(value) {
@@ -66,6 +66,24 @@ function proxiedUrl(url) {
   return `${corsProxyBase}${encodeURIComponent(url)}`;
 }
 
+export const REQUEST_TIMEOUT_MS = 8000;
+
+// Chaque tentative (accès direct, puis éventuel proxy) dispose de son propre délai.
+// Un service bloqué ne doit pas empêcher le rafraîchissement des autres cartes.
+async function fetchWithTimeout(url, requestOptions, timeoutMs) {
+  try {
+    return await fetch(url, {
+      ...requestOptions,
+      signal: AbortSignal.timeout(timeoutMs)
+    });
+  } catch (error) {
+    if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
+      throw new Error(`Délai dépassé après ${timeoutMs} ms — ${url}`);
+    }
+    throw error;
+  }
+}
+
 async function requestWithCorsFallback(url, options = {}) {
   const requestOptions = {
     method: options.method || 'GET',
@@ -73,9 +91,11 @@ async function requestWithCorsFallback(url, options = {}) {
     redirect: 'follow',
     headers: options.headers || {}
   };
+  const timeoutMs = Number.isFinite(options.timeoutMs) && options.timeoutMs > 0
+    ? options.timeoutMs : REQUEST_TIMEOUT_MS;
   let directError;
   try {
-    const response = await fetch(url, requestOptions);
+    const response = await fetchWithTimeout(url, requestOptions, timeoutMs);
     if (!response.ok) throw new Error(`HTTP ${response.status} — ${url}`);
     return { response, finalUrl: response.url || url, usedProxy: false };
   } catch (error) {
@@ -86,7 +106,7 @@ async function requestWithCorsFallback(url, options = {}) {
   if (!network.proxyFallbackEnabled) throw directError;
 
   try {
-    const response = await fetch(proxiedUrl(url), requestOptions);
+    const response = await fetchWithTimeout(proxiedUrl(url), requestOptions, timeoutMs);
     if (!response.ok) throw new Error(`HTTP ${response.status} — ${url}`);
     // L'URL finale du proxy ne doit jamais remplacer l'endpoint réel enregistré.
     return { response, finalUrl: url, usedProxy: true };
@@ -98,7 +118,8 @@ async function requestWithCorsFallback(url, options = {}) {
 export async function fetchJson(url, options = {}) {
   const { response, finalUrl, usedProxy } = await requestWithCorsFallback(url, {
     ...options,
-    headers: { Accept: 'application/json', ...(options.headers || {}) }
+    headers: { Accept: 'application/json', ...(options.headers || {}) },
+    timeoutMs: options.timeoutMs
   });
   const data = await response.json();
   return { data, finalUrl, response, usedProxy };
@@ -107,7 +128,8 @@ export async function fetchJson(url, options = {}) {
 export async function fetchText(url, options = {}) {
   const { response, finalUrl, usedProxy } = await requestWithCorsFallback(url, {
     ...options,
-    headers: { Accept: 'text/html,application/xhtml+xml', ...(options.headers || {}) }
+    headers: { Accept: 'text/html,application/xhtml+xml', ...(options.headers || {}) },
+    timeoutMs: options.timeoutMs
   });
   return { text: await response.text(), finalUrl, response, usedProxy };
 }

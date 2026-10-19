@@ -9,6 +9,7 @@ import {
   recognisesPulsetic,
   recognisesSimpleHtml,
   recognisesSorryApp,
+  recognisesSorryAppJson,
   recognisesStatusIo,
   parseAtlassian,
   parseBetterStack,
@@ -19,6 +20,7 @@ import {
   parsePulsetic,
   parseSimpleHtml,
   parseSorryApp,
+  parseSorryAppJson,
   parseStatusIo
 } from './providers/index.js';
 
@@ -143,11 +145,37 @@ export async function detectStatusPage(inputUrl) {
     }
 
     /* Certaines plateformes n'ont pas de flux public simple : lecture prudente du HTML. */
-    if (html && recognisesSorryApp(html)) return found(
-      { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'sorryapp', method: 'GET' },
-      parseSorryApp(html),
-      'SorryApp — lecture HTML'
-    );
+    if ((html && recognisesSorryApp(html)) || hosts.includes('status.pipedrive.com')) {
+      const origin = new URL(canonicalPageUrl).origin;
+      const endpoint = `${origin}/api/v1/status`;
+      try {
+        const { data } = await fetchJson(endpoint);
+        if (recognisesSorryAppJson(data)) {
+          let notices = null;
+          if (data.page.state !== 'operational') {
+            try {
+              notices = (await fetchJson(`${origin}/api/v1/notices?filter%5Btimeline_state_eq%5D=present`)).data;
+            } catch (error) {
+              console.info('[detect] SorryApp notice details unavailable:', safeMessage(error));
+            }
+          }
+          return found(
+            { pageUrl: canonicalPageUrl, endpoint, provider: 'sorryapp', method: 'GET' },
+            parseSorryAppJson(data, notices),
+            'SorryApp — API JSON'
+          );
+        }
+        attempts.push(`${endpoint} : JSON SorryApp non reconnu`);
+      } catch (error) {
+        attempts.push(`${endpoint} : ${safeMessage(error)}`);
+      }
+
+      if (html && recognisesSorryApp(html)) return found(
+        { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'sorryapp', method: 'GET' },
+        parseSorryApp(html),
+        'SorryApp — lecture HTML'
+      );
+    }
     if (html && recognisesStatusIo(html)) return found(
       { pageUrl: canonicalPageUrl, endpoint: canonicalPageUrl, provider: 'statusio-html', method: 'GET' },
       parseStatusIo(html),

@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-20T00:30:50.457Z",
+  "generatedAt": "2026-10-20T05:11:55.715Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T00:30:50.457Z"
+      "checkedAt": "2026-10-20T05:11:55.715Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Cloudflare Secure Web Gateway and DLP enforcement issues for Google Gemini",
-      "checkedAt": "2026-10-20T00:30:50.457Z"
+      "level": "major",
+      "title": "Cloudflare Zero Trust connectivity",
+      "checkedAt": "2026-10-20T05:11:55.715Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T00:30:50.457Z"
+      "checkedAt": "2026-10-20T05:11:55.715Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T00:30:50.457Z"
+      "checkedAt": "2026-10-20T05:11:55.715Z"
     }
   }
 }

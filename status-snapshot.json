@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-20T22:18:16.090Z",
+  "generatedAt": "2026-10-21T00:41:32.752Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T22:18:16.090Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Cloudflare Secure Web Gateway and DLP enforcement issues for Google Gemini",
-      "checkedAt": "2026-10-20T22:18:16.090Z"
+      "checkedAt": "2026-10-21T00:41:32.752Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T22:18:16.090Z"
+      "checkedAt": "2026-10-21T00:41:32.752Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Incorrect geo location for some Cloudflare WARP users",
+      "checkedAt": "2026-10-21T00:41:32.752Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-20T22:18:16.090Z"
+      "checkedAt": "2026-10-21T00:41:32.752Z"
     }
   }
 }

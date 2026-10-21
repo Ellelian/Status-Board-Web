@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-21T19:31:08.945Z",
+  "generatedAt": "2026-10-21T22:41:20.255Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T19:31:08.945Z"
+      "checkedAt": "2026-10-21T22:41:20.255Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Incorrect geo location for some Cloudflare WARP users",
+      "checkedAt": "2026-10-21T22:41:20.255Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T19:31:08.945Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Increased Latency in India",
-      "checkedAt": "2026-10-21T19:31:08.945Z"
+      "checkedAt": "2026-10-21T22:41:20.255Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T19:31:08.945Z"
+      "checkedAt": "2026-10-21T22:41:20.255Z"
     }
   }
 }

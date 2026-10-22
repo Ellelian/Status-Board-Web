@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-22T10:46:45.400Z",
+  "generatedAt": "2026-10-22T15:41:37.644Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T10:46:45.400Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Incorrect geo location for some Cloudflare WARP users",
-      "checkedAt": "2026-10-22T10:46:45.400Z"
+      "checkedAt": "2026-10-22T15:41:37.644Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T10:46:45.400Z"
+      "checkedAt": "2026-10-22T15:41:37.644Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Cloudflare Workers API Latency",
+      "checkedAt": "2026-10-22T15:41:37.644Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T10:46:45.400Z"
+      "checkedAt": "2026-10-22T15:41:37.644Z"
     }
   }
 }

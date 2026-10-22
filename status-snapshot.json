@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-22T15:41:37.644Z",
+  "generatedAt": "2026-10-22T19:32:30.145Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T15:41:37.644Z"
+      "checkedAt": "2026-10-22T19:32:30.145Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "major",
+      "title": "Delayed audit log delivery for WARP and Zero Trust services",
+      "checkedAt": "2026-10-22T19:32:30.145Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T15:41:37.644Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Cloudflare Workers API Latency",
-      "checkedAt": "2026-10-22T15:41:37.644Z"
+      "checkedAt": "2026-10-22T19:32:30.145Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T15:41:37.644Z"
+      "checkedAt": "2026-10-22T19:32:30.145Z"
     }
   }
 }

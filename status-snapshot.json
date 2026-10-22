@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-21T22:41:20.255Z",
+  "generatedAt": "2026-10-22T00:56:01.360Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T22:41:20.255Z"
+      "checkedAt": "2026-10-22T00:56:01.360Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Incorrect geo location for some Cloudflare WARP users",
-      "checkedAt": "2026-10-21T22:41:20.255Z"
+      "title": "Network congestion in Portland and Seattle, US",
+      "checkedAt": "2026-10-22T00:56:01.360Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T22:41:20.255Z"
+      "checkedAt": "2026-10-22T00:56:01.360Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-21T22:41:20.255Z"
+      "checkedAt": "2026-10-22T00:56:01.360Z"
     }
   }
 }

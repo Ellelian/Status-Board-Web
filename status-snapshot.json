@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-22T22:43:16.317Z",
+  "generatedAt": "2026-10-23T01:00:00.220Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T22:43:16.317Z"
+      "checkedAt": "2026-10-23T01:00:00.220Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "major",
-      "title": "Delayed audit log delivery for WARP and Zero Trust services",
-      "checkedAt": "2026-10-22T22:43:16.317Z"
+      "level": "maintenance",
+      "title": "WAW (Warsaw) on 2026-10-23",
+      "checkedAt": "2026-10-23T01:00:00.220Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T22:43:16.317Z"
+      "checkedAt": "2026-10-23T01:00:00.220Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-22T22:43:16.317Z"
+      "checkedAt": "2026-10-23T01:00:00.220Z"
     }
   }
 }

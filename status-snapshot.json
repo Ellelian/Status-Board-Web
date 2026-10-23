@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-23T19:34:23.036Z",
+  "generatedAt": "2026-10-23T22:36:39.488Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T19:34:23.036Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Delayed, missed, and duplicated Workers Cron Triggers",
-      "checkedAt": "2026-10-23T19:34:23.036Z"
+      "checkedAt": "2026-10-23T22:36:39.488Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T19:34:23.036Z"
+      "checkedAt": "2026-10-23T22:36:39.488Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "CGK (Jakarta) on 2026-10-23",
+      "checkedAt": "2026-10-23T22:36:39.488Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T19:34:23.036Z"
+      "checkedAt": "2026-10-23T22:36:39.488Z"
     }
   }
 }

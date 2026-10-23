@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-23T15:46:57.232Z",
+  "generatedAt": "2026-10-23T19:34:23.036Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T15:46:57.232Z"
+      "checkedAt": "2026-10-23T19:34:23.036Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "major",
+      "level": "minor",
       "title": "Delayed, missed, and duplicated Workers Cron Triggers",
-      "checkedAt": "2026-10-23T15:46:57.232Z"
+      "checkedAt": "2026-10-23T19:34:23.036Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T15:46:57.232Z"
+      "checkedAt": "2026-10-23T19:34:23.036Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-23T15:46:57.232Z"
+      "checkedAt": "2026-10-23T19:34:23.036Z"
     }
   }
 }

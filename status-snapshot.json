@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-24T13:40:39.065Z",
+  "generatedAt": "2026-10-24T16:59:38.244Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T13:40:39.065Z"
+      "checkedAt": "2026-10-24T16:59:38.244Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "NBO (Nairobi) on 2026-10-23",
+      "checkedAt": "2026-10-24T16:59:38.244Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T13:40:39.065Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Increased error rate in Workflow Operations",
-      "checkedAt": "2026-10-24T13:40:39.065Z"
+      "checkedAt": "2026-10-24T16:59:38.244Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T13:40:39.065Z"
+      "checkedAt": "2026-10-24T16:59:38.244Z"
     }
   }
 }

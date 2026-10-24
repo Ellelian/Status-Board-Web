@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-24T01:03:48.072Z",
+  "generatedAt": "2026-10-24T05:44:33.897Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T01:03:48.072Z"
+      "checkedAt": "2026-10-24T05:44:33.897Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "NBO (Nairobi) on 2026-10-23",
+      "checkedAt": "2026-10-24T05:44:33.897Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T01:03:48.072Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Network Performance Issues in Ashburn",
-      "checkedAt": "2026-10-24T01:03:48.072Z"
+      "checkedAt": "2026-10-24T05:44:33.897Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T01:03:48.072Z"
+      "checkedAt": "2026-10-24T05:44:33.897Z"
     }
   }
 }

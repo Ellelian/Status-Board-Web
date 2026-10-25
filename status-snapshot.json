@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-24T23:46:57.799Z",
+  "generatedAt": "2026-10-25T01:46:52.613Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T23:46:57.799Z"
+      "checkedAt": "2026-10-25T01:46:52.613Z"
     },
     "new.cloudflarestatus.com": {
       "level": "maintenance",
       "title": "NBO (Nairobi) on 2026-10-23",
-      "checkedAt": "2026-10-24T23:46:57.799Z"
+      "checkedAt": "2026-10-25T01:46:52.613Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T23:46:57.799Z"
+      "checkedAt": "2026-10-25T01:46:52.613Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-24T23:46:57.799Z"
+      "checkedAt": "2026-10-25T01:46:52.613Z"
     }
   }
 }

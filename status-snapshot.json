@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-26T08:09:08.943Z",
+  "generatedAt": "2026-10-26T15:11:14.565Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-26T08:09:08.943Z"
-    },
-    "www.calendlystatus.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-10-26T08:09:08.943Z"
+      "checkedAt": "2026-10-26T15:11:14.565Z"
     },
     "new.cloudflarestatus.com": {
       "level": "major",
       "title": "Arica, Chile - (ARI)",
-      "checkedAt": "2026-10-26T08:09:08.943Z"
+      "checkedAt": "2026-10-26T15:11:14.565Z"
+    },
+    "www.calendlystatus.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-10-26T15:11:14.565Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-26T08:09:08.943Z"
+      "checkedAt": "2026-10-26T15:11:14.565Z"
     }
   }
 }

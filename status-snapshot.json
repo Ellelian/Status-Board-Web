@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-27T10:12:37.266Z",
+  "generatedAt": "2026-10-27T15:54:13.965Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T10:12:37.266Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "major",
-      "title": "Arica, Chile - (ARI)",
-      "checkedAt": "2026-10-27T10:12:37.266Z"
+      "checkedAt": "2026-10-27T15:54:13.965Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T10:12:37.266Z"
+      "checkedAt": "2026-10-27T15:54:13.965Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Cache Purging Delays Affecting Requests Routed Through EEUR",
+      "checkedAt": "2026-10-27T15:54:13.965Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T10:12:37.266Z"
+      "checkedAt": "2026-10-27T15:54:13.965Z"
     }
   }
 }

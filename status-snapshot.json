@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-27T00:02:48.260Z",
+  "generatedAt": "2026-10-27T04:54:32.420Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T00:02:48.260Z"
+      "checkedAt": "2026-10-27T04:54:32.420Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "major",
+      "title": "Arica, Chile - (ARI)",
+      "checkedAt": "2026-10-27T04:54:32.420Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T00:02:48.260Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Delayed, missed, and duplicated Workers Cron Triggers",
-      "checkedAt": "2026-10-27T00:02:48.260Z"
+      "checkedAt": "2026-10-27T04:54:32.420Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-27T00:02:48.260Z"
+      "checkedAt": "2026-10-27T04:54:32.420Z"
     }
   }
 }

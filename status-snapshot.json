@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-28T16:51:03.281Z",
+  "generatedAt": "2026-10-28T21:24:08.801Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-28T16:51:03.281Z"
-    },
-    "www.calendlystatus.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-10-28T16:51:03.281Z"
+      "checkedAt": "2026-10-28T21:24:08.801Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
       "title": "Network Performance Issues in Ashburn, IAD",
-      "checkedAt": "2026-10-28T16:51:03.281Z"
+      "checkedAt": "2026-10-28T21:24:08.801Z"
+    },
+    "www.calendlystatus.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-10-28T21:24:08.801Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-28T16:51:03.281Z"
+      "checkedAt": "2026-10-28T21:24:08.801Z"
     }
   }
 }

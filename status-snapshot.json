@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-29T01:08:20.638Z",
+  "generatedAt": "2026-10-29T07:02:16.408Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-29T01:08:20.638Z"
+      "checkedAt": "2026-10-29T07:02:16.408Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "major",
-      "title": "Arica, Chile - (ARI)",
-      "checkedAt": "2026-10-29T01:08:20.638Z"
+      "level": "minor",
+      "title": "Increased errors and latency for CNI 2.0 traffic in LAX",
+      "checkedAt": "2026-10-29T07:02:16.408Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-29T01:08:20.638Z"
+      "checkedAt": "2026-10-29T07:02:16.408Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-29T01:08:20.638Z"
+      "checkedAt": "2026-10-29T07:02:16.408Z"
     }
   }
 }

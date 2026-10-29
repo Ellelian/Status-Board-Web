@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-28T21:24:08.801Z",
+  "generatedAt": "2026-10-29T01:08:20.638Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-28T21:24:08.801Z"
+      "checkedAt": "2026-10-29T01:08:20.638Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Network Performance Issues in Ashburn, IAD",
-      "checkedAt": "2026-10-28T21:24:08.801Z"
+      "level": "major",
+      "title": "Arica, Chile - (ARI)",
+      "checkedAt": "2026-10-29T01:08:20.638Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-28T21:24:08.801Z"
+      "checkedAt": "2026-10-29T01:08:20.638Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-28T21:24:08.801Z"
+      "checkedAt": "2026-10-29T01:08:20.638Z"
     }
   }
 }

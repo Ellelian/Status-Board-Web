@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-30T02:56:03.027Z",
+  "generatedAt": "2026-10-30T09:43:39.109Z",
   "services": {
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Increased Errors for Browser Run",
-      "checkedAt": "2026-10-30T02:56:03.027Z"
+    "status.pipedrive.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-10-30T09:43:39.109Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-30T02:56:03.027Z"
+      "checkedAt": "2026-10-30T09:43:39.109Z"
     },
-    "status.pipedrive.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-10-30T02:56:03.027Z"
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "EWR (Newark) on 2026-10-30",
+      "checkedAt": "2026-10-30T09:43:39.109Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-10-30T02:56:03.027Z"
+      "checkedAt": "2026-10-30T09:43:39.109Z"
     }
   }
 }

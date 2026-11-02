@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T12:57:02.141Z",
+  "generatedAt": "2026-11-02T22:15:09.397Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T12:57:02.141Z"
+      "checkedAt": "2026-11-02T22:15:09.397Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "major",
-      "title": "Arica, Chile - (ARI)",
-      "checkedAt": "2026-11-02T12:57:02.141Z"
+      "level": "minor",
+      "title": " Cloudflare Gateway DNS-over-TLS Connectivity Issues over IPv4",
+      "checkedAt": "2026-11-02T22:15:09.397Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T12:57:02.141Z"
+      "checkedAt": "2026-11-02T22:15:09.397Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T12:57:02.141Z"
+      "checkedAt": "2026-11-02T22:15:09.397Z"
     }
   }
 }

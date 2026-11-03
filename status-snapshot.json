@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T22:15:09.397Z",
+  "generatedAt": "2026-11-03T03:29:50.230Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T22:15:09.397Z"
+      "checkedAt": "2026-11-03T03:29:50.230Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": " Cloudflare Gateway DNS-over-TLS Connectivity Issues over IPv4",
-      "checkedAt": "2026-11-02T22:15:09.397Z"
+      "level": "maintenance",
+      "title": "DUR (Durban) on 2026-11-03",
+      "checkedAt": "2026-11-03T03:29:50.230Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T22:15:09.397Z"
+      "checkedAt": "2026-11-03T03:29:50.230Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-02T22:15:09.397Z"
+      "checkedAt": "2026-11-03T03:29:50.230Z"
     }
   }
 }

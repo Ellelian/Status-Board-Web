@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-03T11:16:17.554Z",
+  "generatedAt": "2026-11-03T18:29:03.626Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T11:16:17.554Z"
+      "checkedAt": "2026-11-03T18:29:03.626Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T11:16:17.554Z"
+      "checkedAt": "2026-11-03T18:29:03.626Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "maintenance",
-      "title": "SJC (San Jose) on 2026-11-03",
-      "checkedAt": "2026-11-03T11:16:17.554Z"
+      "level": "minor",
+      "title": "Cloudflare Workers and Pages build errors ",
+      "checkedAt": "2026-11-03T18:29:03.626Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T11:16:17.554Z"
+      "checkedAt": "2026-11-03T18:29:03.626Z"
     }
   }
 }

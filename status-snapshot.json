@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-03T03:29:50.230Z",
+  "generatedAt": "2026-11-03T11:16:17.554Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T03:29:50.230Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "maintenance",
-      "title": "DUR (Durban) on 2026-11-03",
-      "checkedAt": "2026-11-03T03:29:50.230Z"
+      "checkedAt": "2026-11-03T11:16:17.554Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T03:29:50.230Z"
+      "checkedAt": "2026-11-03T11:16:17.554Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "SJC (San Jose) on 2026-11-03",
+      "checkedAt": "2026-11-03T11:16:17.554Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-03T03:29:50.230Z"
+      "checkedAt": "2026-11-03T11:16:17.554Z"
     }
   }
 }

@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-04T11:08:18.658Z",
+  "generatedAt": "2026-11-04T18:38:04.679Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T11:08:18.658Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "maintenance",
-      "title": "LAS (Las Vegas) on 2026-11-04",
-      "checkedAt": "2026-11-04T11:08:18.658Z"
+      "checkedAt": "2026-11-04T18:38:04.679Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T11:08:18.658Z"
+      "checkedAt": "2026-11-04T18:38:04.679Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "KIX (Osaka) on 2026-11-04",
+      "checkedAt": "2026-11-04T18:38:04.679Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T11:08:18.658Z"
+      "checkedAt": "2026-11-04T18:38:04.679Z"
     }
   }
 }

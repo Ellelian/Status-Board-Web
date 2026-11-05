@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-04T23:55:46.461Z",
+  "generatedAt": "2026-11-05T05:38:57.965Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T23:55:46.461Z"
+      "checkedAt": "2026-11-05T05:38:57.965Z"
     },
     "new.cloudflarestatus.com": {
       "level": "maintenance",
       "title": "AMS (Amsterdam) on 2026-11-04",
-      "checkedAt": "2026-11-04T23:55:46.461Z"
+      "checkedAt": "2026-11-05T05:38:57.965Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T23:55:46.461Z"
+      "checkedAt": "2026-11-05T05:38:57.965Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-04T23:55:46.461Z"
+      "checkedAt": "2026-11-05T05:38:57.965Z"
     }
   }
 }

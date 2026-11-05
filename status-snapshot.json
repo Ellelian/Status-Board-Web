@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-05T05:38:57.965Z",
+  "generatedAt": "2026-11-05T13:29:46.071Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-05T05:38:57.965Z"
+      "checkedAt": "2026-11-05T13:29:46.071Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "maintenance",
-      "title": "AMS (Amsterdam) on 2026-11-04",
-      "checkedAt": "2026-11-05T05:38:57.965Z"
+      "level": "minor",
+      "title": "Increased Errors for Durable Objects in Western Europe",
+      "checkedAt": "2026-11-05T13:29:46.071Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-05T05:38:57.965Z"
+      "checkedAt": "2026-11-05T13:29:46.071Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-05T05:38:57.965Z"
+      "checkedAt": "2026-11-05T13:29:46.071Z"
     }
   }
 }

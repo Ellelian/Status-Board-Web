@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-06T07:55:59.120Z",
+  "generatedAt": "2026-11-06T15:45:24.215Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-06T07:55:59.120Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Increased Errors for Durable Objects in Western Europe",
-      "checkedAt": "2026-11-06T07:55:59.120Z"
+      "checkedAt": "2026-11-06T15:45:24.215Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-06T07:55:59.120Z"
+      "checkedAt": "2026-11-06T15:45:24.215Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "maintenance",
+      "title": "MSP (Minneapolis) on 2026-11-05",
+      "checkedAt": "2026-11-06T15:45:24.215Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-06T07:55:59.120Z"
+      "checkedAt": "2026-11-06T15:45:24.215Z"
     }
   }
 }

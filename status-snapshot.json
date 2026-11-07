@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-07T00:52:41.592Z",
+  "generatedAt": "2026-11-07T06:45:17.720Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-07T00:52:41.592Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Fedramp Customers have Delayed Purges",
-      "checkedAt": "2026-11-07T00:52:41.592Z"
+      "checkedAt": "2026-11-07T06:45:17.720Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-07T00:52:41.592Z"
+      "checkedAt": "2026-11-07T06:45:17.720Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Spectrum Availability Issue in Phoenix",
+      "checkedAt": "2026-11-07T06:45:17.720Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-07T00:52:41.592Z"
+      "checkedAt": "2026-11-07T06:45:17.720Z"
     }
   }
 }

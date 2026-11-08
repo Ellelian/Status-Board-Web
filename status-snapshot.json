@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-08T01:17:02.840Z",
+  "generatedAt": "2026-11-08T07:29:43.577Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-08T01:17:02.840Z"
+      "checkedAt": "2026-11-08T07:29:43.577Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
       "title": "Spectrum Availability Issue in Phoenix",
-      "checkedAt": "2026-11-08T01:17:02.840Z"
+      "checkedAt": "2026-11-08T07:29:43.577Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-08T01:17:02.840Z"
+      "checkedAt": "2026-11-08T07:29:43.577Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-08T01:17:02.840Z"
+      "checkedAt": "2026-11-08T07:29:43.577Z"
     }
   }
 }

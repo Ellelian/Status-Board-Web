@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-11T23:47:38.302Z",
+  "generatedAt": "2026-11-12T04:23:37.034Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-11T23:47:38.302Z"
+      "checkedAt": "2026-11-12T04:23:37.034Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Replicate Website and Model Registry Unavailable",
-      "checkedAt": "2026-11-11T23:47:38.302Z"
+      "title": "Replicate Model Registry Unavailable",
+      "checkedAt": "2026-11-12T04:23:37.034Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-11T23:47:38.302Z"
+      "checkedAt": "2026-11-12T04:23:37.034Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-11T23:47:38.302Z"
+      "checkedAt": "2026-11-12T04:23:37.034Z"
     }
   }
 }

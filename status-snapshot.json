@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-13T01:31:27.509Z",
+  "generatedAt": "2026-11-13T08:42:40.159Z",
   "services": {
     "status.pipedrive.com": {
       "level": "minor",
       "title": "Email Sync Issue",
-      "checkedAt": "2026-11-13T01:31:27.509Z"
+      "checkedAt": "2026-11-13T08:42:40.159Z"
     },
     "www.calendlystatus.com": {
       "level": "minor",
       "title": "Calendar syncing and connection issues",
-      "checkedAt": "2026-11-13T01:31:27.509Z"
+      "checkedAt": "2026-11-13T08:42:40.159Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Durable Objects increased error rates in North America",
-      "checkedAt": "2026-11-13T01:31:27.509Z"
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-13T08:42:40.159Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-13T01:31:27.509Z"
+      "checkedAt": "2026-11-13T08:42:40.159Z"
     }
   }
 }

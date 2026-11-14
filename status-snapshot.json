@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-14T09:19:44.472Z",
+  "generatedAt": "2026-11-14T15:53:50.710Z",
   "services": {
     "status.pipedrive.com": {
       "level": "minor",
       "title": "Email Sync Issue",
-      "checkedAt": "2026-11-14T09:19:44.472Z"
+      "checkedAt": "2026-11-14T15:53:50.710Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Cloudflare is seeing an issue with Workers API availability",
-      "checkedAt": "2026-11-14T09:19:44.472Z"
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-14T15:53:50.710Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-14T09:19:44.472Z"
+      "checkedAt": "2026-11-14T15:53:50.710Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-14T09:19:44.472Z"
+      "checkedAt": "2026-11-14T15:53:50.710Z"
     }
   }
 }

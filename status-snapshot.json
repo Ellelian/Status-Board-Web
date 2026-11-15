@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-15T00:02:03.561Z",
+  "generatedAt": "2026-11-15T06:14:45.871Z",
   "services": {
     "status.pipedrive.com": {
       "level": "minor",
       "title": "Email Sync Issue",
-      "checkedAt": "2026-11-15T00:02:03.561Z"
+      "checkedAt": "2026-11-15T06:14:45.871Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
       "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
-      "checkedAt": "2026-11-15T00:02:03.561Z"
+      "checkedAt": "2026-11-15T06:14:45.871Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-15T00:02:03.561Z"
+      "checkedAt": "2026-11-15T06:14:45.871Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-15T00:02:03.561Z"
+      "checkedAt": "2026-11-15T06:14:45.871Z"
     }
   }
 }

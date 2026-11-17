@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-17T12:22:00.442Z",
+  "generatedAt": "2026-11-17T21:09:54.706Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-17T12:22:00.442Z"
+      "checkedAt": "2026-11-17T21:09:54.706Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Turnstile verification failures",
-      "checkedAt": "2026-11-17T12:22:00.442Z"
+      "title": "R2 elevated errors and timeouts for requests from South America",
+      "checkedAt": "2026-11-17T21:09:54.706Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-17T12:22:00.442Z"
+      "checkedAt": "2026-11-17T21:09:54.706Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-17T12:22:00.442Z"
+      "checkedAt": "2026-11-17T21:09:54.706Z"
     }
   }
 }

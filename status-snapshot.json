@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-17T21:09:54.706Z",
+  "generatedAt": "2026-11-18T02:53:52.576Z",
   "services": {
-    "status.pipedrive.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-11-17T21:09:54.706Z"
-    },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "R2 elevated errors and timeouts for requests from South America",
-      "checkedAt": "2026-11-17T21:09:54.706Z"
+      "title": "Errors and stalled predictions on some models",
+      "checkedAt": "2026-11-18T02:53:52.576Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-17T21:09:54.706Z"
+      "checkedAt": "2026-11-18T02:53:52.576Z"
+    },
+    "status.pipedrive.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-11-18T02:53:52.576Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-17T21:09:54.706Z"
+      "checkedAt": "2026-11-18T02:53:52.576Z"
     }
   }
 }

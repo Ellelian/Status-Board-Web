@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-18T02:53:52.576Z",
+  "generatedAt": "2026-11-18T11:03:59.653Z",
   "services": {
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Errors and stalled predictions on some models",
-      "checkedAt": "2026-11-18T02:53:52.576Z"
+    "status.pipedrive.com": {
+      "level": "ok",
+      "title": "",
+      "checkedAt": "2026-11-18T11:03:59.653Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-18T02:53:52.576Z"
+      "checkedAt": "2026-11-18T11:03:59.653Z"
     },
-    "status.pipedrive.com": {
-      "level": "ok",
-      "title": "",
-      "checkedAt": "2026-11-18T02:53:52.576Z"
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-18T11:03:59.653Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-18T02:53:52.576Z"
+      "checkedAt": "2026-11-18T11:03:59.653Z"
     }
   }
 }

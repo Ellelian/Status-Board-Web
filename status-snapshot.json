@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-18T19:22:28.185Z",
+  "generatedAt": "2026-11-19T01:19:34.722Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-18T19:22:28.185Z"
+      "checkedAt": "2026-11-19T01:19:34.722Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
-      "checkedAt": "2026-11-18T19:22:28.185Z"
+      "title": "Degraded connectivity between Europe and Asia Pacific",
+      "checkedAt": "2026-11-19T01:19:34.722Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-18T19:22:28.185Z"
+      "checkedAt": "2026-11-19T01:19:34.722Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-18T19:22:28.185Z"
+      "checkedAt": "2026-11-19T01:19:34.722Z"
     }
   }
 }

@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-20T07:42:19.844Z",
+  "generatedAt": "2026-11-20T16:23:46.118Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-20T07:42:19.844Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Network Performance Issues in Miami",
-      "checkedAt": "2026-11-20T07:42:19.844Z"
+      "checkedAt": "2026-11-20T16:23:46.118Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-20T07:42:19.844Z"
+      "checkedAt": "2026-11-20T16:23:46.118Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-20T16:23:46.118Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-20T07:42:19.844Z"
+      "checkedAt": "2026-11-20T16:23:46.118Z"
     }
   }
 }

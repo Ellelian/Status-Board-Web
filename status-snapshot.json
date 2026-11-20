@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-19T17:58:44.266Z",
+  "generatedAt": "2026-11-20T00:32:37.252Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-19T17:58:44.266Z"
+      "checkedAt": "2026-11-20T00:32:37.252Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Observability ingestion delay and query failures",
-      "checkedAt": "2026-11-19T17:58:44.266Z"
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-20T00:32:37.252Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-19T17:58:44.266Z"
+      "checkedAt": "2026-11-20T00:32:37.252Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-19T17:58:44.266Z"
+      "checkedAt": "2026-11-20T00:32:37.252Z"
     }
   }
 }

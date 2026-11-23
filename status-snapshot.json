@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-23T04:52:41.989Z",
+  "generatedAt": "2026-11-23T15:36:08.661Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-23T04:52:41.989Z"
+      "checkedAt": "2026-11-23T15:36:08.661Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "minor",
+      "title": "Cloudflare Workers API – Delayed or Inconsistent Responses",
+      "checkedAt": "2026-11-23T15:36:08.661Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-23T04:52:41.989Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
-      "checkedAt": "2026-11-23T04:52:41.989Z"
+      "checkedAt": "2026-11-23T15:36:08.661Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-23T04:52:41.989Z"
+      "checkedAt": "2026-11-23T15:36:08.661Z"
     }
   }
 }

@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-24T02:34:14.512Z",
+  "generatedAt": "2026-11-24T12:54:59.226Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T02:34:14.512Z"
+      "checkedAt": "2026-11-24T12:54:59.226Z"
     },
     "new.cloudflarestatus.com": {
-      "level": "minor",
-      "title": "Cloudflare Workers API – Delayed or Inconsistent Responses",
-      "checkedAt": "2026-11-24T02:34:14.512Z"
+      "level": "major",
+      "title": "Magic Transit Degraded Performance",
+      "checkedAt": "2026-11-24T12:54:59.226Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T02:34:14.512Z"
+      "checkedAt": "2026-11-24T12:54:59.226Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T02:34:14.512Z"
+      "checkedAt": "2026-11-24T12:54:59.226Z"
     }
   }
 }

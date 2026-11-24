@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-24T12:54:59.226Z",
+  "generatedAt": "2026-11-24T22:55:15.078Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T12:54:59.226Z"
-    },
-    "new.cloudflarestatus.com": {
-      "level": "major",
-      "title": "Magic Transit Degraded Performance",
-      "checkedAt": "2026-11-24T12:54:59.226Z"
+      "checkedAt": "2026-11-24T22:55:15.078Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T12:54:59.226Z"
+      "checkedAt": "2026-11-24T22:55:15.078Z"
+    },
+    "new.cloudflarestatus.com": {
+      "level": "major",
+      "title": "Magic Transit Degraded Performance",
+      "checkedAt": "2026-11-24T22:55:15.078Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-24T12:54:59.226Z"
+      "checkedAt": "2026-11-24T22:55:15.078Z"
     }
   }
 }

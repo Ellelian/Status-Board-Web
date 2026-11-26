@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-25T23:48:48.464Z",
+  "generatedAt": "2026-11-26T05:31:48.210Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-25T23:48:48.464Z"
+      "checkedAt": "2026-11-26T05:31:48.210Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-25T23:48:48.464Z"
+      "checkedAt": "2026-11-26T05:31:48.210Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "Elevated R2 Latency",
-      "checkedAt": "2026-11-25T23:48:48.464Z"
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-26T05:31:48.210Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-25T23:48:48.464Z"
+      "checkedAt": "2026-11-26T05:31:48.210Z"
     }
   }
 }

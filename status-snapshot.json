@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-26T15:42:03.792Z",
+  "generatedAt": "2026-11-27T00:02:02.269Z",
   "services": {
     "status.pipedrive.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-26T15:42:03.792Z"
+      "checkedAt": "2026-11-27T00:02:02.269Z"
     },
     "new.cloudflarestatus.com": {
       "level": "minor",
-      "title": "AI Gateway – Elevated errors for Gemini 4 models using Unified Billing",
-      "checkedAt": "2026-11-26T15:42:03.792Z"
+      "title": "Changes to Cloudflare Workers are not producing Event Subscription events",
+      "checkedAt": "2026-11-27T00:02:02.269Z"
     },
     "www.calendlystatus.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-26T15:42:03.792Z"
+      "checkedAt": "2026-11-27T00:02:02.269Z"
     },
     "status.passcreator.com": {
       "level": "ok",
       "title": "",
-      "checkedAt": "2026-11-26T15:42:03.792Z"
+      "checkedAt": "2026-11-27T00:02:02.269Z"
     }
   }
 }
